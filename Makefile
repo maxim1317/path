@@ -1,5 +1,5 @@
 all: clean
-	python3 src/main.py &
+	@python3 src/main.py &
 
 clean:
 	@python3 &

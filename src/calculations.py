@@ -9,11 +9,15 @@ def norm(p_1, p_2):
     return m.sqrt((p_2[0] - p_1[0]) ** 2 + (p_2[1] - p_1[1]) ** 2)
 
 
-def common_tan(o_1, o_2, Eps):
-    """Finds all common tangents between two circles
+def common_tan(circ_1, circ_2, Eps, circleList, handelDict):
+    """Finds all common tangents between
+        two ccircleList, ircles
     returns list of lines
     """
     out = open('gens/tanlist.gen', 'w')
+
+    o_1 = circleList[circ_1]
+    o_2 = circleList[circ_2]
 
     p_1 = [0.0, 0.0]
     p_2 = [0.0, 0.0]
@@ -186,6 +190,7 @@ def check_collisions(tan, circleList, cur_1, cur_2, Eps):
 
 def all_tans(M, circleList, Eps, offset):
     tanList = []
+    handelDict = {}
 
     C_1 = [offset, M + offset]
     C_2 = [M + offset, offset]
@@ -209,7 +214,10 @@ def all_tans(M, circleList, Eps, offset):
         for circ_2 in range(circ_1, len(circleList)):
             if (circleList[circ_1][0] != circleList[circ_2][0]) or (
                     circleList[circ_1][1] != circleList[circ_2][1]):
-                tans = common_tan(circleList[circ_1], circleList[circ_2], Eps)
+
+                tans = common_tan(
+                    circ_1, circ_2, Eps, circleList, handelDict)
+
                 for t in tans:
                     if check_collisions(
                         t, circleList,

@@ -36,7 +36,7 @@ def draw_scene(M, circleList, tanList, Eps, offset):
 
 
 M = 500
-N = 7
+N = 2
 Eps = 50
 offset = 50
 
