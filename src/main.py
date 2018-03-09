@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import generator as g
-import calculations as calc
+import tangents as tn
 import pygame
 
 
@@ -41,5 +41,5 @@ Eps = 50
 offset = 50
 
 circleList = g.generator(M, N, offset)
-tanList = calc.all_tans(M, circleList, Eps, offset)
+tanList = tn.all_tans(M, circleList, Eps, offset)
 draw_scene(M, circleList, tanList, Eps, offset)
