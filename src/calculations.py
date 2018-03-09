@@ -21,7 +21,7 @@ def common_tan(o_1, o_2, Eps):
 
     # print(o_1[0])
     # print(o_2[0])
-    arctan = m.atan((o_2[1] - o_1[1]) / (o_2[0] - o_1[0]))
+    arctan = m.atan2(o_2[1] - o_1[1], o_2[0] - o_1[0])
     cos = m.cos(m.pi / 2 + arctan)
     sin = m.sin(m.pi / 2 + arctan)
 
@@ -43,8 +43,12 @@ def common_tan(o_1, o_2, Eps):
 
     if (norm(o_1, o_2) > 2 * Eps):
 
-        sin = m.sin(m.pi / 2 - m.asin(2 * Eps / norm(o_1, o_2)))
-        cos = m.cos(m.pi / 2 - m.asin(2 * Eps / norm(o_1, o_2)))
+        sin = m.sin(m.pi / 2 - m.asin(2 * Eps / norm(o_1, o_2)) + arctan)
+        cos = m.cos(m.pi / 2 - m.asin(2 * Eps / norm(o_1, o_2)) + arctan)
+
+        sig = [0, 0]
+        sig[0] = (o_1[0] - o_2[0]) / abs(o_1[0] - o_2[0])
+        sig[1] = (o_1[1] - o_2[1]) / abs(o_1[1] - o_2[1])
 
         p_1[0] = o_1[0] + Eps * cos
         p_1[1] = o_1[1] + Eps * sin
@@ -54,10 +58,13 @@ def common_tan(o_1, o_2, Eps):
         line = [p_1, p_2]
         tanList.append(cp.deepcopy(line))
 
-        p_1[0] = o_1[0] - Eps * cos
-        p_1[1] = o_1[1] - Eps * sin
-        p_2[0] = o_2[0] + Eps * cos
-        p_2[1] = o_2[1] + Eps * sin
+        sin = m.sin(-m.pi / 2 - m.asin(2 * Eps / norm(o_1, o_2)) + arctan)
+        cos = m.cos(-m.pi / 2 - m.asin(2 * Eps / norm(o_1, o_2)) + arctan)
+
+        p_1[0] = o_1[0] + Eps * cos
+        p_1[1] = o_1[1] + Eps * sin
+        p_2[0] = o_2[0] - Eps * cos
+        p_2[1] = o_2[1] - Eps * sin
 
         line = [p_1, p_2]
         tanList.append(cp.deepcopy(line))
@@ -140,12 +147,15 @@ def check_collisions(tan, circleList, cur_1, cur_2, Eps):
 
 def all_tans(circleList, Eps):
     tanList = []
-    for circ_1 in circleList:
-        for circ_2 in circleList:
-            if circ_1[0] != circ_2[0]:
-                tans = common_tan(circ_1, circ_2, Eps)
+    for circ_1 in range(0, len(circleList)):
+        for circ_2 in range(circ_1, len(circleList)):
+            if (circleList[circ_1][0] != circleList[circ_2][0]) or (
+                    circleList[circ_1][1] != circleList[circ_2][1]):
+                tans = common_tan(circleList[circ_1], circleList[circ_2], Eps)
                 for t in tans:
-                    if check_collisions(t, circleList, circ_1, circ_2, Eps):
+                    if check_collisions(
+                        t, circleList,
+                            circleList[circ_1], circleList[circ_2], Eps):
                         tanList.append(t)
 
     return tanList

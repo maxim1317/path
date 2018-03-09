@@ -11,7 +11,7 @@ def draw_scene(M, circleList, tanList, Eps, offset):
     (width, height) = (600, 600)
 
     screen = pygame.display.set_mode((width, height))
-    pygame.display.set_caption('Tutorial 1')
+    pygame.display.set_caption('Shortest Path')
     screen.fill(background_colour)
 
     pygame.draw.rect(screen, (0, 0, 0), (offset, offset, M, M), 1)
