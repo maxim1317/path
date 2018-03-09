@@ -77,6 +77,45 @@ def common_tan(o_1, o_2, Eps):
     return tanList
 
 
+def point_tan(point, O, circleList, Eps):
+    tanList = []
+    p = [0.0, 0.0]
+
+    arctan = m.atan2(circleList[O][1] - point[1], circleList[O][0] - point[0])
+
+    cos = m.cos(m.pi / 2 + arctan - m.atan2(Eps, norm(point, circleList[O])))
+    sin = m.sin(m.pi / 2 + arctan - m.atan2(Eps, norm(point, circleList[O])))
+
+    p[0] = circleList[O][0] - Eps * cos
+    p[1] = circleList[O][1] - Eps * sin
+
+    line = [point, p]
+
+    for i in range(0, len(circleList)):
+        if i != O:
+            f = check_collisions(line, circleList, point, circleList[O], Eps)
+
+    if f:
+        tanList.append(cp.deepcopy(line))
+
+    cos = m.cos(m.pi / 2 + arctan + m.atan2(Eps, norm(point, circleList[O])))
+    sin = m.sin(m.pi / 2 + arctan + m.atan2(Eps, norm(point, circleList[O])))
+
+    p[0] = circleList[O][0] + Eps * cos
+    p[1] = circleList[O][1] + Eps * sin
+
+    line = [point, p]
+
+    for i in range(0, len(circleList)):
+        if i != O:
+            f = check_collisions(line, circleList, point, circleList[O], Eps)
+
+    if f:
+        tanList.append(cp.deepcopy(line))
+
+    return tanList
+
+
 def point_to_line_dist(point, s_line):
     """Calculate the distance between a point and a line segment.
 
@@ -145,8 +184,27 @@ def check_collisions(tan, circleList, cur_1, cur_2, Eps):
     return True
 
 
-def all_tans(circleList, Eps):
+def all_tans(M, circleList, Eps, offset):
     tanList = []
+
+    C_1 = [offset, M + offset]
+    C_2 = [M + offset, offset]
+
+    line = [C_1, C_2]
+
+    f = check_collisions(line, circleList, C_1, C_2, Eps)
+    if f:
+        tanList.append(cp.deepcopy(line))
+
+    for circ in range(0, len(circleList)):
+        tans_1 = (point_tan(C_1, circ, circleList, Eps))
+        for t in tans_1:
+            tanList.append(cp.deepcopy(t))
+
+        tans_2 = (point_tan(C_2, circ, circleList, Eps))
+        for t in tans_2:
+            tanList.append(cp.deepcopy(t))
+
     for circ_1 in range(0, len(circleList)):
         for circ_2 in range(circ_1, len(circleList)):
             if (circleList[circ_1][0] != circleList[circ_2][0]) or (
