@@ -58,13 +58,13 @@ def common_tan(o_1, o_2, Eps):
         line = [p_1, p_2]
         tanList.append(cp.deepcopy(line))
 
-        sin = m.sin(-m.pi / 2 - m.asin(2 * Eps / norm(o_1, o_2)) + arctan)
-        cos = m.cos(-m.pi / 2 - m.asin(2 * Eps / norm(o_1, o_2)) + arctan)
+        sin = m.sin(+m.pi / 2 + m.asin(2 * Eps / norm(o_1, o_2)) + arctan)
+        cos = m.cos(+m.pi / 2 + m.asin(2 * Eps / norm(o_1, o_2)) + arctan)
 
-        p_1[0] = o_1[0] + Eps * cos
-        p_1[1] = o_1[1] + Eps * sin
-        p_2[0] = o_2[0] - Eps * cos
-        p_2[1] = o_2[1] - Eps * sin
+        p_1[0] = o_1[0] - Eps * cos
+        p_1[1] = o_1[1] - Eps * sin
+        p_2[0] = o_2[0] + Eps * cos
+        p_2[1] = o_2[1] + Eps * sin
 
         line = [p_1, p_2]
         tanList.append(cp.deepcopy(line))

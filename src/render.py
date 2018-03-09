@@ -23,7 +23,7 @@ def draw_scene(M, circleList, tanList, Eps, offset):
             screen, (255, 0, 0), (round(circ[0]), round(circ[1])), 5, 5)
 
     for tan in tanList:
-        pygame.draw.line(screen, (255, 0, 0), tan[0], tan[1], 2)
+        pygame.draw.line(screen, (255, 0, 255), tan[0], tan[1], 1)
 
     pygame.display.flip()
 
@@ -34,6 +34,6 @@ def draw_scene(M, circleList, tanList, Eps, offset):
                 running = False
 
 
-circleList = g.generator(500, 2, 50)
+circleList = g.generator(500, 10, 50)
 tanList = calc.all_tans(circleList, 50)
 draw_scene(500, circleList, tanList, 50, 50)
