@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"gr",
+				"graffyGraph"
+			],
+			[
+				"p",
+				"p_2"
+			],
+			[
 				"ta",
 				"tan\tparam"
 			],
@@ -66,10 +74,6 @@
 			[
 				"point_",
 				"point_tan\tfunction"
-			],
-			[
-				"p",
-				"point"
 			],
 			[
 				"po",
@@ -305,14 +309,6 @@
 			}
 		},
 		{
-			"file": "/home/oberon/.config/sublime-text-3/Packages/Anaconda/Anaconda.sublime-settings",
-			"settings":
-			{
-				"buffer_size": 21436,
-				"line_ending": "Unix"
-			}
-		},
-		{
 			"file": "/home/oberon/university/MetOpt/optmet/src/graph.py",
 			"settings":
 			{
@@ -325,7 +321,7 @@
 			"file": "/home/oberon/university/MetOpt/optmet/Makefile",
 			"settings":
 			{
-				"buffer_size": 74,
+				"buffer_size": 129,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -352,7 +348,7 @@
 			"file": "/home/oberon/university/MetOpt/optmet/src/tangents.py",
 			"settings":
 			{
-				"buffer_size": 5373,
+				"buffer_size": 5752,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -560,11 +556,12 @@
 	"expanded_folders":
 	[
 		"/home/oberon/university/MetOpt/optmet",
-		"/home/oberon/university/MetOpt/optmet/gens",
-		"/home/oberon/university/MetOpt/optmet/src"
+		"/home/oberon/university/MetOpt/optmet/subl_proj"
 	],
 	"file_history":
 	[
+		"/home/oberon/.config/sublime-text-3/Packages/Anaconda/Anaconda.sublime-settings",
+		"/home/oberon/university/MetOpt/optmet/subl_proj/optmet.sublime-project",
 		"/home/oberon/.config/sublime-text-3/Packages/User/Python.sublime-settings",
 		"/home/oberon/university/MetOpt/optmet/test/main.py",
 		"/home/oberon/university/MetOpt/optmet/src/render.py",
@@ -654,6 +651,20 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"G,",
+			"G",
+			"\n        graphy.add_edge(tuple(point), tuple(p), weight=calc.norm(point, p))",
+			"\n        graphy.add_edge(tuple(point), tuple(p), weight=calc.norm(point, p))\n",
+			"\n        graphy.add_edge(tuple(p_1), tuple(p_2), weight=calc.norm(p_1, p_2))",
+			"\n    graphy.add_edge(tuple(p_1), tuple(p_2), weight=calc.norm(p_1, p_2))",
+			", graffyGraph",
+			"Graph",
+			"Graph.add_edge(p_1",
+			"Graph.add_edge(",
+			"p_1",
+			"_1",
+			"circleList",
+			"Eps",
 			"0][",
 			"0][0",
 			"0",
@@ -745,7 +756,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 2,
 			"sheets":
 			[
 				{
@@ -761,8 +772,8 @@
 						"selection":
 						[
 							[
-								347,
-								347
+								22,
+								22
 							]
 						],
 						"settings":
@@ -876,27 +887,12 @@
 							{
 								"close":
 								{
-									"1":
-									[
-										346,
-										347
-									]
 								},
 								"icon":
 								{
-									"1":
-									[
-										"Packages/BracketHighlighter/icons/round_bracket.png",
-										"region.yellowish"
-									]
 								},
 								"open":
 								{
-									"1":
-									[
-										332,
-										333
-									]
 								},
 								"unmatched":
 								{
@@ -968,204 +964,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "/home/oberon/.config/sublime-text-3/Packages/Anaconda/Anaconda.sublime-settings",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 21436,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3249,
-								3249
-							]
-						],
-						"settings":
-						{
-							"bracket_highlighter.busy": false,
-							"bracket_highlighter.clone": -1,
-							"bracket_highlighter.clone_locations":
-							{
-								"close":
-								{
-								},
-								"icon":
-								{
-								},
-								"open":
-								{
-								},
-								"unmatched":
-								{
-								}
-							},
-							"bracket_highlighter.clone_regions":
-							[
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_square_content",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_round_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_tag_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content"
-							],
-							"bracket_highlighter.locations":
-							{
-								"close":
-								{
-									"1":
-									[
-										3248,
-										3249
-									]
-								},
-								"icon":
-								{
-									"1":
-									[
-										"Packages/BracketHighlighter/icons/double_quote.png",
-										"region.greenish"
-									]
-								},
-								"open":
-								{
-									"1":
-									[
-										3241,
-										3242
-									]
-								},
-								"unmatched":
-								{
-								}
-							},
-							"bracket_highlighter.regions":
-							[
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_square_content",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_round_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_tag_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content"
-							],
-							"syntax": "Packages/JavaScript/JSON.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1368.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
 					"file": "/home/oberon/university/MetOpt/optmet/src/graph.py",
 					"semi_transient": false,
 					"settings":
@@ -1351,24 +1154,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
-					"buffer": 3,
+					"buffer": 2,
 					"file": "/home/oberon/university/MetOpt/optmet/Makefile",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 74,
+						"buffer_size": 129,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								74,
-								74
+								128,
+								128
 							]
 						],
 						"settings":
@@ -1527,11 +1330,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
-					"buffer": 4,
+					"buffer": 3,
 					"file": "/home/oberon/university/MetOpt/optmet/src/generator.py",
 					"semi_transient": false,
 					"settings":
@@ -1716,11 +1519,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
-					"buffer": 5,
+					"buffer": 4,
 					"file": "/home/oberon/university/MetOpt/optmet/src/calculations.py",
 					"semi_transient": false,
 					"settings":
@@ -1922,20 +1725,20 @@
 					"type": "text"
 				},
 				{
-					"buffer": 6,
+					"buffer": 5,
 					"file": "/home/oberon/university/MetOpt/optmet/src/tangents.py",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5373,
+						"buffer_size": 5752,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2544,
-								2544
+								1773,
+								1773
 							]
 						],
 						"settings":
@@ -1957,27 +1760,12 @@
 							{
 								"close":
 								{
-									"1":
-									[
-										2543,
-										2544
-									]
 								},
 								"icon":
 								{
-									"1":
-									[
-										"Packages/BracketHighlighter/icons/square_bracket.png",
-										"region.bluish"
-									]
 								},
 								"open":
 								{
-									"1":
-									[
-										2542,
-										2543
-									]
 								},
 								"unmatched":
 								{
@@ -2045,27 +1833,12 @@
 							{
 								"close":
 								{
-									"1":
-									[
-										2543,
-										2544
-									]
 								},
 								"icon":
 								{
-									"1":
-									[
-										"Packages/BracketHighlighter/icons/square_bracket.png",
-										"region.bluish"
-									]
 								},
 								"open":
 								{
-									"1":
-									[
-										2542,
-										2543
-									]
 								},
 								"unmatched":
 								{
@@ -2133,10 +1906,10 @@
 							"syntax": "Packages/Python 3/Python3.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 874.0,
+						"translation.y": 513.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 1,
 					"type": "text"
 				}
 			]

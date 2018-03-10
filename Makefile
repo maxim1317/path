@@ -3,4 +3,7 @@ all: clean
 
 clean:
 	@python3 &
-	@pkill -f python3 
+	@pkill -f python3
+
+nx:
+	@evince ~/Downloads/networkx_reference.pdf 2>&1 &
