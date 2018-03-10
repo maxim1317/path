@@ -1,27 +1,33 @@
 import math as m
 import calculations as calc
 import copy as cp
+import networkx as nx
+import matplotlib.pyplot as plt
 
 
 def all_tans(M, circleList, Eps, offset):
     tanList = []
-    handelDict = {}
+    graffyGraph = nx.MultiGraph()
 
     C_1 = [offset, M + offset]
     C_2 = [M + offset, offset]
 
     line = [C_1, C_2]
+    print("Shortest path", calc.norm(C_1, C_2))
+    print
 
-    f = check_collisions(line, circleList, C_1, C_2, Eps)
+    f = check_collisions(line, circleList, C_1, C_2, Eps, M, offset)
     if f:
         tanList.append(cp.deepcopy(line))
 
     for circ in range(0, len(circleList)):
-        tans_1 = (point_tan(C_1, circ, circleList, Eps))
+        tans_1 = (point_tan(
+            C_1, circ, circleList, Eps, M, offset))
         for t in tans_1:
             tanList.append(cp.deepcopy(t))
 
-        tans_2 = (point_tan(C_2, circ, circleList, Eps))
+        tans_2 = (point_tan(
+            C_2, circ, circleList, Eps, M, offset))
         for t in tans_2:
             tanList.append(cp.deepcopy(t))
 
@@ -31,18 +37,30 @@ def all_tans(M, circleList, Eps, offset):
                     circleList[circ_1][1] != circleList[circ_2][1]):
 
                 tans = common_tan(
-                    circ_1, circ_2, Eps, circleList, handelDict)
+                    circ_1, circ_2, Eps, circleList)
 
                 for t in tans:
-                    if check_collisions(
-                        t, circleList,
-                            circleList[circ_1], circleList[circ_2], Eps):
+                    if check_collisions(t, circleList, circleList[
+                            circ_1], circleList[circ_2], Eps, M, offset):
                         tanList.append(t)
+
+    for tan in tanList:
+        graffyGraph.add_edge(tuple(tan[0]), tuple(
+            tan[1]), weight=calc.norm(tan[0], tan[1]))
+
+    # plt.subplot(121)
+    # nx.draw(graffyGraph, with_labels=True, font_weight='bold')
+    # plt.subplot(122)
+    # nx.draw_shell(graffyGraph, nlist=[
+    #     range(5, 10), range(5)], with_labels=True, font_weight='bold')
+
+    # l = list(nx.connected_components(graffyGraph))
+    # print(l)
 
     return tanList
 
 
-def check_collisions(tan, circleList, cur_1, cur_2, Eps):
+def check_collisions(tan, circleList, cur_1, cur_2, Eps, M, offset):
     """Checks intersections between the line and all of the circles
 
     Returns True if there are no collision and False otherwise
@@ -52,13 +70,18 @@ def check_collisions(tan, circleList, cur_1, cur_2, Eps):
                 (c[0] != cur_2[0]) and (c[1] != cur_2[1])):
             if calc.point_to_line_dist(c, tan) < Eps - 0.0000000000001:
                 return False
+            elif ((tan[0][0] < offset) or (tan[0][1] < offset) or (
+                    tan[0][0] > offset + M) or (tan[0][1] > offset + M)) or (
+                        (tan[1][0] < offset) or (tan[1][1] < offset) or (
+                    tan[1][0] > offset + M) or (tan[1][1] > offset + M)):
+                return False
 
     return True
 
 
-def common_tan(circ_1, circ_2, Eps, circleList, handelDict):
+def common_tan(circ_1, circ_2, Eps, circleList):
     """Finds all common tangents between
-        two ccircleList, ircles
+        two circleList, сircles
     returns list of lines
     """
     out = open('gens/tanlist.gen', 'w')
@@ -128,7 +151,7 @@ def common_tan(circ_1, circ_2, Eps, circleList, handelDict):
     return tanList
 
 
-def point_tan(point, O, circleList, Eps):
+def point_tan(point, O, circleList, Eps, M, offset):
     tanList = []
     p = [0.0, 0.0]
 
@@ -144,9 +167,12 @@ def point_tan(point, O, circleList, Eps):
 
     line = [point, p]
 
+    f = True
+
     for i in range(0, len(circleList)):
         if i != O:
-            f = check_collisions(line, circleList, point, circleList[O], Eps)
+            f = check_collisions(line, circleList, point, circleList[
+                O], Eps, M, offset)
 
     if f:
         tanList.append(cp.deepcopy(line))
@@ -161,9 +187,12 @@ def point_tan(point, O, circleList, Eps):
 
     line = [point, p]
 
+    f = True
+
     for i in range(0, len(circleList)):
         if i != O:
-            f = check_collisions(line, circleList, point, circleList[O], Eps)
+            f = check_collisions(line, circleList, point, circleList[
+                O], Eps, M, offset)
 
     if f:
         tanList.append(cp.deepcopy(line))
