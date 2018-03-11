@@ -76,7 +76,7 @@ def all_tans(M, circleList, Eps, offset):
     print(nx.dijkstra_path(graffyGraph, tuple(C_1), tuple(C_2)))
     print(nx.dijkstra_path_length(graffyGraph, tuple(C_1), tuple(C_2)))
 
-    return tanList
+    return [tanList, graffyGraph]
 
 
 def check_collisions(tan, circleList, cur_1, cur_2, Eps, M, offset):
