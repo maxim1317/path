@@ -1,29 +1,37 @@
 #!/usr/bin/env python3
 
 import generator as g
-import calculations as calc
+import tangents as tn
 import pygame
 
 
 def draw_scene(M, circleList, tanList, Eps, offset):
 
-    background_colour = (255, 255, 255)
+    bg      = (250, 250, 250)
+    bg_dark = (73 , 72 , 62 )
+    purple  = (104, 77 , 153)
+    magenta = (249, 38 , 114)
+    green   = (166, 226, 46 )
+    blue    = (102, 217, 239)
+    orange  = (253, 151, 31 )
+
     (width, height) = (600, 600)
 
     screen = pygame.display.set_mode((width, height))
     pygame.display.set_caption('Shortest Path')
-    screen.fill(background_colour)
+    screen.fill(bg_dark)
 
-    pygame.draw.rect(screen, (0, 0, 0), (offset, offset, M, M), 1)
+    pygame.draw.rect(screen, orange, (offset, offset, M, M), 3)
 
     for circ in circleList:
         pygame.draw.circle(
-            screen, (0, 0, 255), (round(circ[0]), round(circ[1])), Eps, 2)
+            screen, blue, (round(circ[0]), round(circ[1])), Eps, 2)
+
         pygame.draw.circle(
-            screen, (255, 0, 0), (round(circ[0]), round(circ[1])), 5, 5)
+            screen, magenta, (round(circ[0]), round(circ[1])), 3, 2)
 
     for tan in tanList:
-        pygame.draw.line(screen, (255, 0, 255), tan[0], tan[1], 1)
+        pygame.draw.line(screen, green, tan[0], tan[1], 1)
 
     pygame.display.flip()
 
@@ -36,10 +44,10 @@ def draw_scene(M, circleList, tanList, Eps, offset):
 
 
 M = 500
-N = 7
+N = 5
 Eps = 50
 offset = 50
 
 circleList = g.generator(M, N, offset)
-tanList = calc.all_tans(M, circleList, Eps, offset)
+tanList = tn.all_tans(M, circleList, Eps, offset)
 draw_scene(M, circleList, tanList, Eps, offset)
