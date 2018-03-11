@@ -9,11 +9,13 @@ def all_tans(M, circleList, Eps, offset):
     tanList = []
     graffyGraph = nx.MultiGraph()
 
+    circleDotDict = {}
+
     C_1 = [offset, M + offset]
     C_2 = [M + offset, offset]
 
     line = [C_1, C_2]
-    print("Shortest path", calc.norm(C_1, C_2))
+    print("Straight path:", calc.norm(C_1, C_2))
     print
 
     f = check_collisions(line, circleList, C_1, C_2, Eps, M, offset)
@@ -21,14 +23,20 @@ def all_tans(M, circleList, Eps, offset):
         tanList.append(cp.deepcopy(line))
 
     for circ in range(0, len(circleList)):
+        circleDotDict[circ] = []
+
+    for circ in range(0, len(circleList)):
+
         tans_1 = (point_tan(
             C_1, circ, circleList, Eps, M, offset))
         for t in tans_1:
+            circleDotDict[circ].append(cp.deepcopy(t[1]))
             tanList.append(cp.deepcopy(t))
 
         tans_2 = (point_tan(
             C_2, circ, circleList, Eps, M, offset))
         for t in tans_2:
+            circleDotDict[circ].append(cp.deepcopy(t[1]))
             tanList.append(cp.deepcopy(t))
 
     for circ_1 in range(0, len(circleList)):
@@ -42,11 +50,19 @@ def all_tans(M, circleList, Eps, offset):
                 for t in tans:
                     if check_collisions(t, circleList, circleList[
                             circ_1], circleList[circ_2], Eps, M, offset):
+                        circleDotDict[circ_1].append(cp.deepcopy(t[0]))
+                        circleDotDict[circ_2].append(cp.deepcopy(t[1]))
                         tanList.append(t)
 
     for tan in tanList:
         graffyGraph.add_edge(tuple(tan[0]), tuple(
             tan[1]), weight=calc.norm(tan[0], tan[1]))
+
+    for circ in range(0, len(circleDotDict)):
+        for dot in range(0, len(circleDotDict[circ]) - 1):
+            graffyGraph.add_edge(tuple(circleDotDict[circ][dot]), tuple(
+                circleDotDict[circ][dot + 1]), weight=calc.norm(circleDotDict[
+                    circ][dot], circleDotDict[circ][dot + 1]))
 
     # plt.subplot(121)
     # nx.draw(graffyGraph, with_labels=True, font_weight='bold')
@@ -56,6 +72,9 @@ def all_tans(M, circleList, Eps, offset):
 
     # l = list(nx.connected_components(graffyGraph))
     # print(l)
+
+    print(nx.dijkstra_path(graffyGraph, tuple(C_1), tuple(C_2)))
+    print(nx.dijkstra_path_length(graffyGraph, tuple(C_1), tuple(C_2)))
 
     return tanList
 
