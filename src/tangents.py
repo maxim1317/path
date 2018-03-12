@@ -2,7 +2,8 @@ import math as m
 import calculations as calc
 import copy as cp
 import networkx as nx
-import matplotlib.pyplot as plt
+from nxpd import draw
+from collections import OrderedDict
 
 
 def all_tans(M, circleList, Eps, offset):
@@ -23,21 +24,21 @@ def all_tans(M, circleList, Eps, offset):
         tanList.append(cp.deepcopy(line))
 
     for circ in range(0, len(circleList)):
-        circleDotDict[circ] = []
+        circleDotDict[circ] = {}
 
     for circ in range(0, len(circleList)):
 
         tans_1 = (point_tan(
             C_1, circ, circleList, Eps, M, offset))
         for t in tans_1:
-            circleDotDict[circ].append(cp.deepcopy(t[1]))
-            tanList.append(cp.deepcopy(t))
+            circleDotDict[circ][t[1]] = cp.deepcopy(t[0][1])
+            tanList.append(cp.deepcopy(t[0]))
 
         tans_2 = (point_tan(
             C_2, circ, circleList, Eps, M, offset))
         for t in tans_2:
-            circleDotDict[circ].append(cp.deepcopy(t[1]))
-            tanList.append(cp.deepcopy(t))
+            circleDotDict[circ][t[1]] = cp.deepcopy(t[0][1])
+            tanList.append(cp.deepcopy(t[0]))
 
     for circ_1 in range(0, len(circleList)):
         for circ_2 in range(circ_1, len(circleList)):
@@ -48,21 +49,28 @@ def all_tans(M, circleList, Eps, offset):
                     circ_1, circ_2, Eps, circleList)
 
                 for t in tans:
-                    if check_collisions(t, circleList, circleList[
+                    if check_collisions(t[0], circleList, circleList[
                             circ_1], circleList[circ_2], Eps, M, offset):
-                        circleDotDict[circ_1].append(cp.deepcopy(t[0]))
-                        circleDotDict[circ_2].append(cp.deepcopy(t[1]))
-                        tanList.append(t)
+                        circleDotDict[circ_1][t[1]] = (cp.deepcopy(t[0][0]))
+                        circleDotDict[circ_2][t[1]] = (cp.deepcopy(t[0][1]))
+                        tanList.append(t[0])
 
     for tan in tanList:
         graffyGraph.add_edge(tuple(tan[0]), tuple(
             tan[1]), weight=calc.norm(tan[0], tan[1]))
 
     for circ in range(0, len(circleDotDict)):
-        for dot in range(0, len(circleDotDict[circ]) - 1):
-            graffyGraph.add_edge(tuple(circleDotDict[circ][dot]), tuple(
-                circleDotDict[circ][dot + 1]), weight=calc.norm(circleDotDict[
-                    circ][dot], circleDotDict[circ][dot + 1]))
+        cDD = OrderedDict(circleDotDict[circ])
+        circleDotList = list(cDD.items())
+
+        for alpha in range(0, len(circleDotList) - 1):
+            graffyGraph.add_edge(tuple(circleDotList[alpha][1]), tuple(
+                circleDotList[alpha + 1][1]), weight=calc.arc_length(Eps, abs(
+                    circleDotList[alpha + 1][0] - circleDotList[alpha][0])))
+        graffyGraph.add_edge(tuple(circleDotList[0][1]), tuple(
+            circleDotList[len(circleDotList) - 1][1]), weight=calc.arc_length(
+                Eps, abs(circleDotList[len(
+                    circleDotList) - 1][0] - circleDotList[0][0])))
 
     # plt.subplot(121)
     # nx.draw(graffyGraph, with_labels=True, font_weight='bold')
@@ -73,10 +81,14 @@ def all_tans(M, circleList, Eps, offset):
     # l = list(nx.connected_components(graffyGraph))
     # print(l)
 
+    # nx.draw_networkx(graffyGraph)
+
+    draw(graffyGraph)
+
     print(nx.dijkstra_path(graffyGraph, tuple(C_1), tuple(C_2)))
     print(nx.dijkstra_path_length(graffyGraph, tuple(C_1), tuple(C_2)))
 
-    return tanList
+    return [tanList, nx.dijkstra_path(graffyGraph, tuple(C_1), tuple(C_2))]
 
 
 def check_collisions(tan, circleList, cur_1, cur_2, Eps, M, offset):
@@ -118,13 +130,15 @@ def common_tan(circ_1, circ_2, Eps, circleList):
     cos = m.cos(m.pi / 2 + arctan)
     sin = m.sin(m.pi / 2 + arctan)
 
+    alpha = m.pi / 2 + arctan
+
     p_1[0] = o_1[0] + Eps * cos
     p_1[1] = o_1[1] + Eps * sin
     p_2[0] = o_2[0] + Eps * cos
     p_2[1] = o_2[1] + Eps * sin
 
     line = [p_1, p_2]
-    tanList.append(cp.deepcopy(line))
+    tanList.append([cp.deepcopy(line), cp.deepcopy(alpha)])
 
     p_1[0] = o_1[0] - Eps * cos
     p_1[1] = o_1[1] - Eps * sin
@@ -132,12 +146,14 @@ def common_tan(circ_1, circ_2, Eps, circleList):
     p_2[1] = o_2[1] - Eps * sin
 
     line = [p_1, p_2]
-    tanList.append(cp.deepcopy(line))
+    tanList.append([cp.deepcopy(line), cp.deepcopy(alpha)])
 
     if (calc.norm(o_1, o_2) > 2 * Eps):
 
         sin = m.sin(m.pi / 2 - m.asin(2 * Eps / calc.norm(o_1, o_2)) + arctan)
         cos = m.cos(m.pi / 2 - m.asin(2 * Eps / calc.norm(o_1, o_2)) + arctan)
+
+        alpha = m.pi / 2 - m.asin(2 * Eps / calc.norm(o_1, o_2)) + arctan
 
         sig = [0, 0]
         sig[0] = (o_1[0] - o_2[0]) / abs(o_1[0] - o_2[0])
@@ -149,10 +165,12 @@ def common_tan(circ_1, circ_2, Eps, circleList):
         p_2[1] = o_2[1] - Eps * sin
 
         line = [p_1, p_2]
-        tanList.append(cp.deepcopy(line))
+        tanList.append([cp.deepcopy(line), cp.deepcopy(alpha)])
 
-        sin = m.sin(+m.pi / 2 + m.asin(2 * Eps / calc.norm(o_1, o_2)) + arctan)
-        cos = m.cos(+m.pi / 2 + m.asin(2 * Eps / calc.norm(o_1, o_2)) + arctan)
+        sin = m.sin(m.pi / 2 + m.asin(2 * Eps / calc.norm(o_1, o_2)) + arctan)
+        cos = m.cos(m.pi / 2 + m.asin(2 * Eps / calc.norm(o_1, o_2)) + arctan)
+
+        alpha = m.pi / 2 + m.asin(2 * Eps / calc.norm(o_1, o_2)) + arctan
 
         p_1[0] = o_1[0] - Eps * cos
         p_1[1] = o_1[1] - Eps * sin
@@ -160,7 +178,7 @@ def common_tan(circ_1, circ_2, Eps, circleList):
         p_2[1] = o_2[1] + Eps * sin
 
         line = [p_1, p_2]
-        tanList.append(cp.deepcopy(line))
+        tanList.append([cp.deepcopy(line), cp.deepcopy(alpha)])
 
     for t in tanList:
         for i in t:
@@ -184,6 +202,9 @@ def point_tan(point, O, circleList, Eps, M, offset):
     p[0] = circleList[O][0] - Eps * cos
     p[1] = circleList[O][1] - Eps * sin
 
+    alpha = m.pi / 2 + arctan - m.atan2(
+        Eps, calc.norm(point, circleList[O]))
+
     line = [point, p]
 
     f = True
@@ -194,7 +215,7 @@ def point_tan(point, O, circleList, Eps, M, offset):
                 O], Eps, M, offset)
 
     if f:
-        tanList.append(cp.deepcopy(line))
+        tanList.append([cp.deepcopy(line), cp.deepcopy(alpha)])
 
     cos = m.cos(m.pi / 2 + arctan + m.atan2(
         Eps, calc.norm(point, circleList[O])))
@@ -204,6 +225,9 @@ def point_tan(point, O, circleList, Eps, M, offset):
     p[0] = circleList[O][0] + Eps * cos
     p[1] = circleList[O][1] + Eps * sin
 
+    alpha = m.pi / 2 + arctan + m.atan2(
+        Eps, calc.norm(point, circleList[O]))
+
     line = [point, p]
 
     f = True
@@ -214,6 +238,6 @@ def point_tan(point, O, circleList, Eps, M, offset):
                 O], Eps, M, offset)
 
     if f:
-        tanList.append(cp.deepcopy(line))
+        tanList.append([cp.deepcopy(line), cp.deepcopy(alpha)])
 
     return tanList

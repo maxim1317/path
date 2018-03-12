@@ -4,6 +4,9 @@ all: clean
 clean:
 	@python3 &
 	@pkill -f python3
+	@ristretto&
+	@pkill -f ristretto
+
 
 nx:
 	@evince ~/Downloads/networkx_reference.pdf 2>&1 &
