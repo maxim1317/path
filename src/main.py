@@ -47,8 +47,8 @@ def draw_scene(M, circleList, tanList, path, Eps, offset):
 
 
 M = 500
-N = 4
-Eps = 80
+N = 30
+Eps = 20
 offset = 50
 
 circleList = g.generator(M, N, offset)
