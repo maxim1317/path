@@ -1,17 +1,31 @@
+# You know what it is:
 import math as m
+
+# From src/calculations.py:
 import calculations as calc
+
+# For deepcopy:
 import copy as cp
+
+# Graph class with fancy graph algorithms:
 import networkx as nx
+
+# Draws graph:
 from nxpd import draw
+
+# This is shit:
 from collections import OrderedDict
 
 
 def all_tans(M, circleList, Eps, offset):
+    """ Very heavy function that should calculate all the tangents """
+
     tanList = []
     graffyGraph = nx.MultiGraph()
 
-    circleDotDict = {}
+    circleDotDict = {}  # Dict of dicts to store dots on circle with angles
 
+    # Dots of start and finish
     C_1 = [offset, M + offset]
     C_2 = [M + offset, offset]
 
@@ -19,13 +33,16 @@ def all_tans(M, circleList, Eps, offset):
     print("Straight path:", calc.norm(C_1, C_2))
     print
 
+    # Push straigth line between start and finish if you can
     f = check_collisions(line, circleList, C_1, C_2, Eps, M, offset)
     if f:
         tanList.append(cp.deepcopy(line))
 
+    # Init dict
     for circ in range(0, len(circleList)):
         circleDotDict[circ] = {}
 
+    # Calculate all tangents from start/finish and circles:
     for circ in range(0, len(circleList)):
 
         tans_1 = (point_tan(
@@ -40,6 +57,8 @@ def all_tans(M, circleList, Eps, offset):
             circleDotDict[circ][t[1]] = cp.deepcopy(t[0][1])
             tanList.append(cp.deepcopy(t[0]))
 
+    # Calculate all common tangents between each pair of circles
+    # and push it in tanList if there is no collisions
     for circ_1 in range(0, len(circleList)):
         for circ_2 in range(circ_1, len(circleList)):
             if (circleList[circ_1][0] != circleList[circ_2][0]) or (
@@ -55,10 +74,12 @@ def all_tans(M, circleList, Eps, offset):
                         circleDotDict[circ_2][t[1]] = (cp.deepcopy(t[0][1]))
                         tanList.append(t[0])
 
+    # Push all remained tangents into graph:
     for tan in tanList:
         graffyGraph.add_edge(tuple(tan[0]), tuple(
             tan[1]), weight=calc.norm(tan[0], tan[1]))
 
+    # Arc shit:
     for circ in range(0, len(circleDotDict)):
         cDD = OrderedDict(circleDotDict[circ])
         circleDotList = list(cDD.items())
@@ -83,8 +104,10 @@ def all_tans(M, circleList, Eps, offset):
 
     # nx.draw_networkx(graffyGraph)
 
+    # draw graph:
     draw(graffyGraph)
 
+    # find shortest path:
     print(nx.dijkstra_path(graffyGraph, tuple(C_1), tuple(C_2)))
     print(nx.dijkstra_path_length(graffyGraph, tuple(C_1), tuple(C_2)))
 
@@ -113,7 +136,7 @@ def check_collisions(tan, circleList, cur_1, cur_2, Eps, M, offset):
 def common_tan(circ_1, circ_2, Eps, circleList):
     """Finds all common tangents between
         two circleList, сircles
-    returns list of lines
+    returns list of lines with their angle
     """
     out = open('gens/tanlist.gen', 'w')
 
@@ -126,6 +149,8 @@ def common_tan(circ_1, circ_2, Eps, circleList):
 
     # print(o_1[0])
     # print(o_2[0])
+
+    # Find outer tangents
     arctan = m.atan2(o_2[1] - o_1[1], o_2[0] - o_1[0])
     cos = m.cos(m.pi / 2 + arctan)
     sin = m.sin(m.pi / 2 + arctan)
@@ -147,6 +172,8 @@ def common_tan(circ_1, circ_2, Eps, circleList):
 
     line = [p_1, p_2]
     tanList.append([cp.deepcopy(line), cp.deepcopy(alpha)])
+
+    # find inner tangents if exist
 
     if (calc.norm(o_1, o_2) > 2 * Eps):
 
@@ -189,6 +216,9 @@ def common_tan(circ_1, circ_2, Eps, circleList):
 
 
 def point_tan(point, O, circleList, Eps, M, offset):
+    """ Finds tangents between points of start/finish and circles in their
+        field of view
+        Returns list of tangents and their angle on the circle"""
     tanList = []
     p = [0.0, 0.0]
 
