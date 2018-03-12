@@ -6,7 +6,9 @@ import pygame
 
 
 def draw_scene(M, circleList, tanList, path, Eps, offset):
+    """ Drawing using pygame."""
 
+    """--------COLORS--------"""
     bg      = (250, 250, 250)
     bg_dark = (73 , 72 , 62 )
     purple  = (104, 77 , 153)
@@ -14,15 +16,19 @@ def draw_scene(M, circleList, tanList, path, Eps, offset):
     green   = (166, 226, 46 )
     blue    = (102, 217, 239)
     orange  = (253, 151, 31 )
+    """----------------------"""
 
-    (width, height) = (600, 600)
+    (width, height) = (600, 600)  # Screen size
 
+    # Draw screen:
     screen = pygame.display.set_mode((width, height))
     pygame.display.set_caption('Shortest Path')
     screen.fill(bg_dark)
 
+    # Draw frame with size = M:
     pygame.draw.rect(screen, orange, (offset, offset, M, M), 3)
 
+    # Draw circles and dots inside them:
     for circ in circleList:
         pygame.draw.circle(
             screen, blue, (round(circ[0]), round(circ[1])), Eps, 2)
@@ -30,12 +36,15 @@ def draw_scene(M, circleList, tanList, path, Eps, offset):
         pygame.draw.circle(
             screen, magenta, (round(circ[0]), round(circ[1])), 3, 2)
 
+    # Draw tangent lines (comment if you can't see shit):
     for tan in tanList:
         pygame.draw.line(screen, green, tan[0], tan[1], 1)
 
+    # Draw a solution path:
     for line in range(0, len(path) - 1):
         pygame.draw.line(screen, magenta, path[line], path[line + 1], 2)
 
+    # pygame shit:
     pygame.display.flip()
 
     running = True
@@ -46,13 +55,19 @@ def draw_scene(M, circleList, tanList, path, Eps, offset):
     return 0
 
 
-M = 500
-N = 30
-Eps = 20
-offset = 50
+M = 500      # Size of rectangle
+N = 10       # Number of circles
+Eps = 40     # Radius of circles
+offset = 50  # offset from (0, 0)
 
+# Generate circles coordinates:
 circleList = g.generator(M, N, offset)
+
+# Calculate tangents to and between circles.
+# Returns tangent coords and solution:
 tans_n_path = tn.all_tans(M, circleList, Eps, offset)
 tanList = tans_n_path[0]
 path = tans_n_path[1]
+
+# Draw everything with pygame
 draw_scene(M, circleList, tanList, path, Eps, offset)

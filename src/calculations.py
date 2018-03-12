@@ -5,10 +5,12 @@ import numpy as np
 
 
 def norm(p_1, p_2):
+    """Takes to points and counts distance between them"""
     return m.sqrt((p_2[0] - p_1[0]) ** 2 + (p_2[1] - p_1[1]) ** 2)
 
 
 def arc_length(Eps, alpha):
+    """This should count arc length in Rads"""
     return Eps * alpha
 
 
@@ -27,6 +29,8 @@ def point_to_line_dist(point, s_line):
     :type line: list of numpy.core.multiarray.ndarray
     :return: The minimum distance to a point.
     :rtype: float
+
+    Did't write it myself. Found on stackoverflow
     """
     # unit vector
     line = np.asarray(s_line)
