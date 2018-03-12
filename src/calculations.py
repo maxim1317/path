@@ -8,6 +8,10 @@ def norm(p_1, p_2):
     return m.sqrt((p_2[0] - p_1[0]) ** 2 + (p_2[1] - p_1[1]) ** 2)
 
 
+def arc_length(Eps, alpha):
+    return Eps * alpha
+
+
 def point_to_line_dist(point, s_line):
     """Calculate the distance between a point and a line segment.
 

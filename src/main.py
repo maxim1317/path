@@ -5,7 +5,7 @@ import tangents as tn
 import pygame
 
 
-def draw_scene(M, circleList, tanList, Eps, offset):
+def draw_scene(M, circleList, tanList, path, Eps, offset):
 
     bg      = (250, 250, 250)
     bg_dark = (73 , 72 , 62 )
@@ -33,6 +33,9 @@ def draw_scene(M, circleList, tanList, Eps, offset):
     for tan in tanList:
         pygame.draw.line(screen, green, tan[0], tan[1], 1)
 
+    for line in range(0, len(path) - 1):
+        pygame.draw.line(screen, magenta, path[line], path[line + 1], 2)
+
     pygame.display.flip()
 
     running = True
@@ -44,10 +47,12 @@ def draw_scene(M, circleList, tanList, Eps, offset):
 
 
 M = 500
-N = 5
-Eps = 50
+N = 4
+Eps = 80
 offset = 50
 
 circleList = g.generator(M, N, offset)
-tanList = tn.all_tans(M, circleList, Eps, offset)
-draw_scene(M, circleList, tanList, Eps, offset)
+tans_n_path = tn.all_tans(M, circleList, Eps, offset)
+tanList = tans_n_path[0]
+path = tans_n_path[1]
+draw_scene(M, circleList, tanList, path, Eps, offset)
