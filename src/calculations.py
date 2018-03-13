@@ -2,6 +2,7 @@
 
 import math as m
 import numpy as np
+import networkx as nx
 
 
 def norm(p_1, p_2):
@@ -89,3 +90,9 @@ def check_collisions(tan, circleList, cur_1, cur_2, Eps, M, offset):
 
 def chk_tan_collisions():
     return True
+
+def chk_arc_collisions():
+    return True
+
+def dijkstra_path(G, from_point, to_point):
+    return nx.dijkstra_path(G, tuple(from_point.xy), tuple(to_point.xy))

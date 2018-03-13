@@ -24,7 +24,7 @@ class Circle():
 
     def add_point(self, point):
         if point.circle != self.circle:
-            return 1
+            return None
 
         self.pList.append(point)
         self.aList.append(point.alpha)
@@ -50,7 +50,7 @@ class Circle():
 
 
 class Tangent():
-    def __init__(self, p_1, p_2, cList, M, offset):
+    def __init__(self, p_1, p_2, cList, params):
         self.C_1 = p_1.circle
         self.p_1 = p_1.xy
 
@@ -60,8 +60,8 @@ class Tangent():
         self.length = calc.norm(p_1, p_2)
 
         self.cList = cList
-        self.M = M
-        self.offset = offset
+        self.M = params[0]
+        self.offset = params[1]
 
     def check_collisions(self):
         return calc.chk_tan_collisions(self)
@@ -78,7 +78,7 @@ class Tangent():
         return joinedG
 
 class Arc():
-    def __init__(self, p_1, p_2, cList, M, offset):
+    def __init__(self, p_1, p_2, cList, params):
         self.C_1 = p_1.circle
         self.p_1 = p_1.xy
         self.a_1 = p_1.alpha
@@ -90,8 +90,8 @@ class Arc():
         self.length = calc.norm(p_1, p_2)
 
         self.cList = cList
-        self.M = M
-        self.offset = offset
+        self.M = params[0]
+        self.offset = params[1]
 
     def check_collisions(self):
         return calc.chk_ark_collisions(self)

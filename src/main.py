@@ -9,9 +9,8 @@ def draw_scene(M, circleList, tanList, path, Eps, offset):
     """ Drawing using pygame."""
 
     """--------COLORS--------"""
-    bg      = (250, 250, 250)
     bg_dark = (73 , 72 , 62 )
-    purple  = (104, 77 , 153)
+    # purple  = (104, 77 , 153)
     magenta = (249, 38 , 114)
     green   = (166, 226, 46 )
     blue    = (102, 217, 239)
