@@ -1,7 +1,11 @@
-all: clean
+all: prepare
 	@python3 src/main.py &
 
+prepare: clean
+	@mkdir -p gens
+
 clean:
+	@rm -rf gens/
 	@python3 &
 	@pkill -f python3
 	@ristretto&
