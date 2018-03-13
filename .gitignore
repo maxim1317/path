@@ -1,5 +1,5 @@
 gens/
-subl_proj/
+.subl_proj/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
