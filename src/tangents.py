@@ -53,26 +53,6 @@ def all_tans(cList, Eps, params):
 
     return tList
 
-
-def check_collisions(tan, circleList, cur_1, cur_2, Eps, M, offset):
-    """Checks intersections between the line and all of the circles
-
-    Returns True if there are no collision and False otherwise
-    """
-    for c in circleList:
-        if ((c[0] != cur_1[0]) and (c[1] != cur_1[1])) and (
-                (c[0] != cur_2[0]) and (c[1] != cur_2[1])):
-            if calc.point_to_line_dist(c, tan) < Eps - 0.0000000000001:
-                return False
-            elif ((tan[0][0] < offset) or (tan[0][1] < offset) or (
-                    tan[0][0] > offset + M) or (tan[0][1] > offset + M)) or (
-                        (tan[1][0] < offset) or (tan[1][1] < offset) or (
-                    tan[1][0] > offset + M) or (tan[1][1] > offset + M)):
-                return False
-
-    return True
-
-
 def common_tan(circ_1, circ_2, Eps, cList, params):
     """Finds all common tangents between
         two circleList, сircles
@@ -182,6 +162,7 @@ def point_tan(point, circ, Eps, cList, params):
     x = O[0] - Eps * cos
     y = O[1] - Eps * sin
     p = Point(x, y, alpha, O)
+    circ.add_point(p)
 
     line = Tangent(point, p, cList, params)
     tanList.append(line)
@@ -193,6 +174,7 @@ def point_tan(point, circ, Eps, cList, params):
     x = O[0] + Eps * cos
     y = O[1] + Eps * sin
     p = Point(x, y, alpha, O)
+    circ.add_point(p)
 
     line = Tangent(point, p, cList, params)
     tanList.append(line)
