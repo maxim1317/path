@@ -77,7 +77,7 @@ def all_tans(M, circleList, Eps, offset):
     # Push all remained tangents into graph:
     for tan in tanList:
         graffyGraph.add_edge(tuple(tan[0]), tuple(
-            tan[1]), weight=calc.norm(tan[0], tan[1]))
+            tan[1]), weight=calc.norm(tan[0], tan[1]), label='tan')
 
     # Arc shit:
     for circ in range(0, len(circleDotDict)):
@@ -87,11 +87,11 @@ def all_tans(M, circleList, Eps, offset):
         for alpha in range(0, len(circleDotList) - 1):
             graffyGraph.add_edge(tuple(circleDotList[alpha][1]), tuple(
                 circleDotList[alpha + 1][1]), weight=calc.arc_length(Eps, abs(
-                    circleDotList[alpha + 1][0] - circleDotList[alpha][0])))
+                    circleDotList[alpha + 1][0] - circleDotList[alpha][0])), label='arc')
         graffyGraph.add_edge(tuple(circleDotList[0][1]), tuple(
             circleDotList[len(circleDotList) - 1][1]), weight=calc.arc_length(
                 Eps, abs(circleDotList[len(
-                    circleDotList) - 1][0] - circleDotList[0][0])))
+                    circleDotList) - 1][0] - circleDotList[0][0])), label='arc')
 
     # plt.subplot(121)
     # nx.draw(graffyGraph, with_labels=True, font_weight='bold')
@@ -105,7 +105,8 @@ def all_tans(M, circleList, Eps, offset):
     # nx.draw_networkx(graffyGraph)
 
     # draw graph:
-    draw(graffyGraph)
+
+    # draw(graffyGraph)
 
     # find shortest path:
     print(nx.dijkstra_path(graffyGraph, tuple(C_1), tuple(C_2)))
@@ -155,7 +156,7 @@ def common_tan(circ_1, circ_2, Eps, circleList):
     cos = m.cos(m.pi / 2 + arctan)
     sin = m.sin(m.pi / 2 + arctan)
 
-    alpha = m.pi / 2 + arctan
+    alpha = arctan
 
     p_1[0] = o_1[0] + Eps * cos
     p_1[1] = o_1[1] + Eps * sin
@@ -163,7 +164,9 @@ def common_tan(circ_1, circ_2, Eps, circleList):
     p_2[1] = o_2[1] + Eps * sin
 
     line = [p_1, p_2]
-    tanList.append([cp.deepcopy(line), cp.deepcopy(alpha)])
+    tanList.append([cp.deepcopy(line), (alpha, m.pi + alpha)])
+
+    alpha = m.pi / 2 + arctan
 
     p_1[0] = o_1[0] - Eps * cos
     p_1[1] = o_1[1] - Eps * sin
@@ -171,7 +174,7 @@ def common_tan(circ_1, circ_2, Eps, circleList):
     p_2[1] = o_2[1] - Eps * sin
 
     line = [p_1, p_2]
-    tanList.append([cp.deepcopy(line), cp.deepcopy(alpha)])
+    tanList.append([cp.deepcopy(line), (alpha, m.pi + alpha)])
 
     # find inner tangents if exist
 
@@ -180,7 +183,7 @@ def common_tan(circ_1, circ_2, Eps, circleList):
         sin = m.sin(m.pi / 2 - m.asin(2 * Eps / calc.norm(o_1, o_2)) + arctan)
         cos = m.cos(m.pi / 2 - m.asin(2 * Eps / calc.norm(o_1, o_2)) + arctan)
 
-        alpha = m.pi / 2 - m.asin(2 * Eps / calc.norm(o_1, o_2)) + arctan
+        alpha = - m.asin(2 * Eps / calc.norm(o_1, o_2)) + arctan
 
         sig = [0, 0]
         sig[0] = (o_1[0] - o_2[0]) / abs(o_1[0] - o_2[0])
@@ -197,7 +200,7 @@ def common_tan(circ_1, circ_2, Eps, circleList):
         sin = m.sin(m.pi / 2 + m.asin(2 * Eps / calc.norm(o_1, o_2)) + arctan)
         cos = m.cos(m.pi / 2 + m.asin(2 * Eps / calc.norm(o_1, o_2)) + arctan)
 
-        alpha = m.pi / 2 + m.asin(2 * Eps / calc.norm(o_1, o_2)) + arctan
+        alpha = m.asin(2 * Eps / calc.norm(o_1, o_2)) + arctan
 
         p_1[0] = o_1[0] - Eps * cos
         p_1[1] = o_1[1] - Eps * sin
@@ -232,7 +235,7 @@ def point_tan(point, O, circleList, Eps, M, offset):
     p[0] = circleList[O][0] - Eps * cos
     p[1] = circleList[O][1] - Eps * sin
 
-    alpha = m.pi / 2 + arctan - m.atan2(
+    alpha = arctan - m.atan2(
         Eps, calc.norm(point, circleList[O]))
 
     line = [point, p]
@@ -255,7 +258,7 @@ def point_tan(point, O, circleList, Eps, M, offset):
     p[0] = circleList[O][0] + Eps * cos
     p[1] = circleList[O][1] + Eps * sin
 
-    alpha = m.pi / 2 + arctan + m.atan2(
+    alpha = arctan + m.atan2(
         Eps, calc.norm(point, circleList[O]))
 
     line = [point, p]

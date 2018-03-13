@@ -61,13 +61,13 @@ Eps = 40     # Radius of circles
 offset = 50  # offset from (0, 0)
 
 # Generate circles coordinates:
-circleList = g.generator(M, N, offset)
+circleList = g.generator(M, N, Eps, offset)
 
 # Calculate tangents to and between circles.
 # Returns tangent coords and solution:
-tans_n_path = tn.all_tans(M, circleList, Eps, offset)
-tanList = tans_n_path[0]
-path = tans_n_path[1]
+# tans_n_path = tn.all_tans(M, circleList, Eps, offset)
+# tanList = tans_n_path[0]
+# path = tans_n_path[1]
 
 # Draw everything with pygame
-draw_scene(M, circleList, tanList, path, Eps, offset)
+# draw_scene(M, circleList, tanList, path, Eps, offset)
