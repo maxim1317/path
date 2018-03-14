@@ -3,6 +3,7 @@
 import math as m
 import numpy as np
 import networkx as nx
+from classes import *
 
 
 def norm(p_1, p_2):
@@ -80,19 +81,51 @@ def check_collisions(tan, circleList, cur_1, cur_2, Eps, M, offset):
                 (c[0] != cur_2[0]) and (c[1] != cur_2[1])):
             if point_to_line_dist(c, tan) < Eps - 0.0000000000001:
                 return False
-            elif ((tan[0][0] < offset) or (tan[0][1] < offset) or (
-                    tan[0][0] > offset + M) or (tan[0][1] > offset + M)) or (
-                        (tan[1][0] < offset) or (tan[1][1] < offset) or (
-                    tan[1][0] > offset + M) or (tan[1][1] > offset + M)):
+            elif ((tan[0][0] < offset) or (tan[0][1] < offset) or (tan[0][0] > offset + M) or
+                (tan[0][1] > offset + M)) or ((tan[1][0] < offset) or (tan[1][1] < offset) or (tan[1][0] > offset + M) or (tan[1][1] > offset + M)):
                 return False
 
     return True
 
-def chk_tan_collisions():
+def chk_tan_collisions(tan):
+
+    O_1 = cList[tan.C_1].center
+    O_2 = cList[tan.C_2].center
+
+    M = tan.M
+    offset = tan.offset
+
+    for c in tan.cList:
+        if (O_1 != c.center) and (O_2 != c.center):
+            if point_to_line_dist(O_1, tan.line) < tan.Eps:
+                return False
+            elif (tan.p_1[0] < offset) or (tan.p_2[0] < offset) or (tan.p_1[1] < offset) or (tan.p_2[1] < offset) or (
+                    tan.p_1[0] > offset + M) or (tan.p_2[0] > offset + M) or (tan.p_1[1] > offset + M) or (tan.p_2[1] > offset + M):
+                return False
+
     return True
 
-def chk_arc_collisions():
+def chk_arc_collisions(arc):
+    O = cList[arc.C].center
+
+    if arc.a_1 < arc.a_2:
+        a_1 = arc.a_1
+        a_2 = arc.a_2
+    else:
+        a_2 = arc.a_1
+        a_1 = arc.a_2
+
+    for c in arc.cList:
+        if c != arc.C:
+            if norm(O, c.center) < 2 * arc.Eps:
+                alpha = m.atan2(O[1] - c.center[1], O[0] - c.center[0])
+
+                if (alpha < a_2) and (alpha > a_1):
+                    return False
+
     return True
 
 def dijkstra_path(G, from_point, to_point):
     return nx.dijkstra_path(G, tuple(from_point.xy), tuple(to_point.xy))
+
+

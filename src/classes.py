@@ -57,7 +57,8 @@ class Tangent():
         self.C_2 = p_2.circle
         self.p_2 = p_2.xy
 
-        self.length = calc.norm(p_1, p_2)
+        self.line = (self.p_1, self.p_2)
+        self.length = calc.norm(self.p_1, self.p_2)
 
         self.cList = cList
         self.M = params[0]
@@ -79,11 +80,10 @@ class Tangent():
 
 class Arc():
     def __init__(self, p_1, p_2, cList, params):
-        self.C_1 = p_1.circle
+        self.C = p_1.circle
         self.p_1 = p_1.xy
         self.a_1 = p_1.alpha
 
-        self.C_2 = p_2.circle
         self.p_2 = p_2.xy
         self.a_2 = p_2.alpha
 
