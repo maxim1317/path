@@ -14,10 +14,14 @@ import networkx as nx
 from nxpd import draw
 
 from classes import *
+import colored_traceback
+colored_traceback.add_hook()
 
 
 def all_tans(cList, Eps, params):
     """ Very heavy function that should calculate all the tangents """
+    M = params[0]
+    offset = params[1]
 
     tList = []
     # graffyGraph = nx.MultiGraph()
@@ -55,12 +59,12 @@ def all_tans(cList, Eps, params):
 
 def common_tan(circ_1, circ_2, Eps, cList, params):
     """Finds all common tangents between
-        two circleList, сircles
+        two cList, сircles
     returns list of lines with their angle
     """
 
-    o_1 = circleList[circ_1].center
-    o_2 = circleList[circ_2].center
+    o_1 = circ_1.center
+    o_2 = circ_2.center
 
     tanList = []
 
@@ -151,7 +155,7 @@ def point_tan(point, circ, Eps, cList, params):
         Returns list of tangents and their angle on the circle"""
     tanList = []
 
-    O = circleList[circ].center
+    O = circ.center
 
     arctan = m.atan2(O[1] - point.xy[1], O[0] - point.xy[0])
 
@@ -167,8 +171,8 @@ def point_tan(point, circ, Eps, cList, params):
     line = Tangent(point, p, cList, params)
     tanList.append(line)
 
-    cos = m.cos(m.pi / 2 + arctan + m.atan2(Eps, calc.norm(point, O)))
-    sin = m.sin(m.pi / 2 + arctan + m.atan2(Eps, calc.norm(point, O)))
+    cos = m.cos(m.pi / 2 + arctan + m.atan2(Eps, calc.norm(point.xy, O)))
+    sin = m.sin(m.pi / 2 + arctan + m.atan2(Eps, calc.norm(point.xy, O)))
     alpha = arctan + m.atan2(Eps, calc.norm(point.xy, O))
 
     x = O[0] + Eps * cos

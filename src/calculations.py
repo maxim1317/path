@@ -71,23 +71,11 @@ def point_to_line_dist(point, s_line):
         # if not, then return the minimum distance to the segment endpoints
         return endpoint_dist
 
-def check_collisions(tan, circleList, cur_1, cur_2, Eps, M, offset):
+def chk_tan_collisions(tan): # Добавить проверку на finishPoint и startPoint
     """Checks intersections between the line and all of the circles
 
     Returns True if there are no collisions and False otherwise
     """
-    for c in circleList:
-        if ((c[0] != cur_1[0]) and (c[1] != cur_1[1])) and (
-                (c[0] != cur_2[0]) and (c[1] != cur_2[1])):
-            if point_to_line_dist(c, tan) < Eps - 0.0000000000001:
-                return False
-            elif ((tan[0][0] < offset) or (tan[0][1] < offset) or (tan[0][0] > offset + M) or
-                (tan[0][1] > offset + M)) or ((tan[1][0] < offset) or (tan[1][1] < offset) or (tan[1][0] > offset + M) or (tan[1][1] > offset + M)):
-                return False
-
-    return True
-
-def chk_tan_collisions(tan):
 
     O_1 = cList[tan.C_1].center
     O_2 = cList[tan.C_2].center
@@ -105,7 +93,7 @@ def chk_tan_collisions(tan):
 
     return True
 
-def chk_arc_collisions(arc):
+def chk_arc_collisions(arc): # Добавить проверку на пересение границ
     O = cList[arc.C].center
 
     if arc.a_1 < arc.a_2:

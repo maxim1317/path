@@ -59,12 +59,13 @@ N = 10       # Number of circles
 Eps = 40     # Radius of circles
 offset = 50  # offset from (0, 0)
 
+params = (M, offset)
 # Generate circles coordinates:
-circleList = g.generator(M, N, Eps, offset)
+cList = g.generator(M, N, Eps, offset)
 
 # Calculate tangents to and between circles.
 # Returns tangent coords and solution:
-# tans_n_path = tn.all_tans(M, circleList, Eps, offset)
+tans = tn.all_tans(cList, Eps, params)
 # tanList = tans_n_path[0]
 # path = tans_n_path[1]
 
