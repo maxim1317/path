@@ -6,8 +6,8 @@ import tangents as tn
 import graph as gph
 import pygame
 
-import colored_traceback
-colored_traceback.add_hook()
+# import colored_traceback
+# colored_traceback.add_hook()
 
 
 def draw_scene(cList, tList, Eps, path, params, text):
@@ -93,8 +93,6 @@ path = gph.dijkstra_path(G, C_1, C_2)
 text = ['a', 'a']
 text[0] = str(round(calc.norm(C_1, C_2), 3))
 text[1] = gph.path_length(G, C_1, C_2)
-# tList = tans_n_path[0]
-# path = tans_n_path[1]
 
 # Draw everything with pygame
 draw_scene(cList, tList, Eps, path, params, text)

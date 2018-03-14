@@ -11,7 +11,6 @@ clean:
 	@ristretto&
 	@pkill -f ristretto
 
-
 nx:
 	@evince ~/Downloads/networkx_reference.pdf 2>&1 &
 

@@ -2,8 +2,6 @@
 
 import math as m
 import numpy as np
-import networkx as nx
-from classes import *
 
 
 def norm(p_1, p_2):
@@ -71,6 +69,7 @@ def point_to_line_dist(point, s_line):
         # if not, then return the minimum distance to the segment endpoints
         return endpoint_dist
 
+
 def chk_tan_collisions(tan):
     """Checks intersections between the line and all of the circles
 
@@ -100,7 +99,8 @@ def chk_tan_collisions(tan):
 
     return True
 
-def chk_arc_collisions(arc): # Добавить проверку на пересение границ
+
+def chk_arc_collisions(arc): # Добавить проверку на пересечение границ
     # O =
     cList = arc.cList
     c = arc.C

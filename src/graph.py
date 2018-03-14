@@ -2,7 +2,7 @@
 import networkx as nx
 
 # Draws graph:
-from nxpd import draw
+# from nxpd import draw
 
 def build_graph(tList, cList):
     G = nx.MultiGraph()
@@ -11,9 +11,6 @@ def build_graph(tList, cList):
         G = t.push_to_graph(G)
     for c in cList:
         G = c.push_to_graph(G)
-
-    # print(G.edges())
-    # draw(G)
 
     return G
 

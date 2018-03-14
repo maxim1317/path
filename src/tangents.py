@@ -5,7 +5,7 @@ import math as m
 import calculations as calc
 
 # For deepcopy:
-import copy as cp
+# import copy as cp
 
 from classes import *
 
@@ -59,9 +59,6 @@ def common_tan(circ_1, circ_2, Eps, cList, params):
     o_2 = circ_2.center
 
     tanList = []
-
-    # print(o_1[0])
-    # print(o_2[0])
 
     # Find outer tangents
     arctan = m.atan2(o_2[1] - o_1[1], o_2[0] - o_1[0])

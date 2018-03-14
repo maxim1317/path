@@ -14,11 +14,7 @@ class Point():
         while a < 0:
             a += 2 * m.pi
 
-        # print(int(a/(2 * m.pi)))
         self.alpha = a - (int(a/(2 * m.pi)) * 2 * m.pi)
-
-        # s = (a/m.pi)
-        # print('a = pi *', s)
 
         self.circle = cp.deepcopy(circle)
 
@@ -99,7 +95,6 @@ class Tangent():
     def push_to_graph(self, G):
         self.build_subgraph()
         joinedG = nx.compose(self.G, G)
-        # print(joinedG.edges())
         return joinedG
 
 class Arc():
