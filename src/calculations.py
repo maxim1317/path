@@ -71,30 +71,37 @@ def point_to_line_dist(point, s_line):
         # if not, then return the minimum distance to the segment endpoints
         return endpoint_dist
 
-def chk_tan_collisions(tan): # Добавить проверку на finishPoint и startPoint
+def chk_tan_collisions(tan):
     """Checks intersections between the line and all of the circles
 
     Returns True if there are no collisions and False otherwise
     """
+    if (tan.C_1 <= -1):
+        O_1 = tan.p_1
+    else:
+        O_1 = tan.cList[tan.C_1].center
 
-    O_1 = cList[tan.C_1].center
-    O_2 = cList[tan.C_2].center
+    if (tan.C_2 <= -1):
+        O_2 = tan.p_2
+    else:
+        O_2 = tan.cList[tan.C_2].center
 
     M = tan.M
     offset = tan.offset
 
     for c in tan.cList:
         if (O_1 != c.center) and (O_2 != c.center):
-            if point_to_line_dist(O_1, tan.line) < tan.Eps:
+            # print(tan.line)
+            if point_to_line_dist([c.center[0], c.center[1]], tan.line) < c.Eps - 0.0000000000001:
                 return False
-            elif (tan.p_1[0] < offset) or (tan.p_2[0] < offset) or (tan.p_1[1] < offset) or (tan.p_2[1] < offset) or (
-                    tan.p_1[0] > offset + M) or (tan.p_2[0] > offset + M) or (tan.p_1[1] > offset + M) or (tan.p_2[1] > offset + M):
-                return False
+        elif (tan.p_1[0] < offset) or (tan.p_2[0] < offset) or (tan.p_1[1] < offset) or (tan.p_2[1] < offset) or (
+                tan.p_1[0] > offset + M) or (tan.p_2[0] > offset + M) or (tan.p_1[1] > offset + M) or (tan.p_2[1] > offset + M):
+            return False
 
     return True
 
 def chk_arc_collisions(arc): # Добавить проверку на пересение границ
-    O = cList[arc.C].center
+    O = arc.cList[arc.C].center
 
     if arc.a_1 < arc.a_2:
         a_1 = arc.a_1
@@ -112,8 +119,5 @@ def chk_arc_collisions(arc): # Добавить проверку на перес
                     return False
 
     return True
-
-def dijkstra_path(G, from_point, to_point):
-    return nx.dijkstra_path(G, tuple(from_point.xy), tuple(to_point.xy))
 
 

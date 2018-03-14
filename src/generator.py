@@ -19,8 +19,7 @@ def generator(M, N, Eps, offset):
     for i in range(N):
         center = (random.uniform(0, M) + offset, random.uniform(0, M) + offset)
 
-        while (calc.norm(C_1, center) <= Eps) or (
-                calc.norm(C_2, center) <= Eps):
+        while (calc.norm(C_1, center) <= Eps) or (calc.norm(C_2, center) <= Eps):
 
             center = (random.uniform(0, M) + offset, random.uniform(0, M) + offset)
 

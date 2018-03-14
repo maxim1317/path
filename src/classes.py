@@ -4,13 +4,14 @@
 import math as m
 import networkx as nx
 import calculations as calc
+import copy as cp
 
 
 class Point():
     def __init__(self, x, y, alpha, circle):
-        self.xy = (x, y)
-        self.alpha = alpha
-        self.circle = circle
+        self.xy = cp.deepcopy((x, y))
+        self.alpha = cp.deepcopy(alpha)
+        self.circle = cp.deepcopy(circle)
 
 
 class Circle():
@@ -18,16 +19,16 @@ class Circle():
         self.pList = []
         self.aList = []
 
-        self.circle = circle
-        self.center = center
-        self.Eps = Eps
+        self.circle = cp.deepcopy(circle)
+        self.center = cp.deepcopy(center)
+        self.Eps = cp.deepcopy(Eps)
 
     def add_point(self, point):
         if point.circle != self.circle:
             return None
 
-        self.pList.append(point)
-        self.aList.append(point.alpha)
+        self.pList.append(cp.deepcopy(point))
+        self.aList.append(cp.deepcopy(point.alpha))
 
     def sort(self):
         self.aList, self.pList = zip(*sorted(zip(self.aList, self.pList)))
@@ -51,18 +52,20 @@ class Circle():
 
 class Tangent():
     def __init__(self, p_1, p_2, cList, params):
-        self.C_1 = p_1.circle
-        self.p_1 = p_1.xy
+        self.C_1 = cp.deepcopy(p_1.circle)
+        self.p_1 = cp.deepcopy(p_1.xy)
 
-        self.C_2 = p_2.circle
-        self.p_2 = p_2.xy
+        self.drawable = False
 
-        self.line = (self.p_1, self.p_2)
-        self.length = calc.norm(self.p_1, self.p_2)
+        self.C_2 = cp.deepcopy(p_2.circle)
+        self.p_2 = cp.deepcopy(p_2.xy)
 
-        self.cList = cList
-        self.M = params[0]
-        self.offset = params[1]
+        self.line = cp.deepcopy([[self.p_1[0], self.p_1[1]], [self.p_2[0], self.p_2[1]]])
+        self.length = cp.deepcopy(calc.norm(self.p_1, self.p_2))
+
+        self.cList = cp.deepcopy(cList)
+        self.M = cp.deepcopy(params[0])
+        self.offset = cp.deepcopy(params[1])
 
     def check_collisions(self):
         return calc.chk_tan_collisions(self)
@@ -70,28 +73,33 @@ class Tangent():
     def build_subgraph(self):
         self.G = nx.MultiGraph()
 
-        if self.check_collisions() is True:
+        f = False
+        f = self.check_collisions()
+
+        if f:
+            self.drawable = True
             self.G.add_edge(self.p_1, self.p_2, self.length, label=str(self.C_1) + '-' + str(self.C_2))
 
     def push_to_graph(self, G):
-        self.build_subgraph
-        joinedG = nx.join(self.G, G)
+        self.build_subgraph()
+        joinedG = nx.compose(self.G, G)
+        # print(joinedG.edges())
         return joinedG
 
 class Arc():
     def __init__(self, p_1, p_2, cList, params):
-        self.C = p_1.circle
-        self.p_1 = p_1.xy
-        self.a_1 = p_1.alpha
+        self.C = cp.deepcopy(p_1.circle)
+        self.p_1 = cp.deepcopy(p_1.xy)
+        self.a_1 = cp.deepcopy(p_1.alpha)
 
-        self.p_2 = p_2.xy
-        self.a_2 = p_2.alpha
+        self.p_2 = cp.deepcopy(p_2.xy)
+        self.a_2 = cp.deepcopy(p_2.alpha)
 
-        self.length = calc.norm(p_1, p_2)
+        self.length = cp.deepcopy(calc.norm(p_1, p_2))
 
-        self.cList = cList
-        self.M = params[0]
-        self.offset = params[1]
+        self.cList = (cp.deepcopy)
+        self.M = cp.deepcopy(params[0])
+        self.offset = cp.deepcopy(params[1])
 
     def check_collisions(self):
         return calc.chk_ark_collisions(self)
@@ -104,5 +112,5 @@ class Arc():
 
     def push_to_graph(self, G):
         self.build_subgraph()
-        joinedG = nx.join(self.G, G)
+        joinedG = nx.compose(self.G, G)
         return joinedG

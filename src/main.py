@@ -2,10 +2,14 @@
 
 import generator as g
 import tangents as tn
+import graph as gph
 import pygame
 
+# import colored_traceback
+# colored_traceback.add_hook()
 
-def draw_scene(M, circleList, tanList, path, Eps, offset):
+
+def draw_scene(cList, tList, Eps, params):
     """ Drawing using pygame."""
 
     """--------COLORS--------"""
@@ -16,6 +20,9 @@ def draw_scene(M, circleList, tanList, path, Eps, offset):
     blue    = (102, 217, 239)
     orange  = (253, 151, 31 )
     """----------------------"""
+
+    M = params[0]
+    offset = params[1]
 
     (width, height) = (600, 600)  # Screen size
 
@@ -28,20 +35,21 @@ def draw_scene(M, circleList, tanList, path, Eps, offset):
     pygame.draw.rect(screen, orange, (offset, offset, M, M), 3)
 
     # Draw circles and dots inside them:
-    for circ in circleList:
+    for c in cList:
         pygame.draw.circle(
-            screen, blue, (round(circ[0]), round(circ[1])), Eps, 2)
+            screen, blue, (round(c.center[0]), round(c.center[1])), Eps, 2)
 
         pygame.draw.circle(
-            screen, magenta, (round(circ[0]), round(circ[1])), 3, 2)
+            screen, magenta, (round(c.center[0]), round(c.center[1])), 3, 2)
 
     # Draw tangent lines (comment if you can't see shit):
-    for tan in tanList:
-        pygame.draw.line(screen, green, tan[0], tan[1], 1)
+    for t in tList:
+        if t.drawable:
+            pygame.draw.line(screen, green, t.p_1, t.p_2, 1)
 
     # Draw a solution path:
-    for line in range(0, len(path) - 1):
-        pygame.draw.line(screen, magenta, path[line], path[line + 1], 2)
+    # for line in range(0, len(path) - 1):
+    #     pygame.draw.line(screen, magenta, path[line], path[line + 1], 2)
 
     # pygame shit:
     pygame.display.flip()
@@ -55,7 +63,7 @@ def draw_scene(M, circleList, tanList, path, Eps, offset):
 
 
 M = 500      # Size of rectangle
-N = 10       # Number of circles
+N = 2      # Number of circles
 Eps = 40     # Radius of circles
 offset = 50  # offset from (0, 0)
 
@@ -65,9 +73,12 @@ cList = g.generator(M, N, Eps, offset)
 
 # Calculate tangents to and between circles.
 # Returns tangent coords and solution:
-tans = tn.all_tans(cList, Eps, params)
-# tanList = tans_n_path[0]
+tList = tn.all_tans(cList, Eps, params)
+G = gph.build_graph(tList, cList)
+
+print('here')
+# tList = tans_n_path[0]
 # path = tans_n_path[1]
 
 # Draw everything with pygame
-# draw_scene(M, circleList, tanList, path, Eps, offset)
+draw_scene(cList, tList, Eps, params)
