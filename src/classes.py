@@ -15,13 +15,19 @@ class Point():
 
 
 class Circle():
-    def __init__(self, circle, center, Eps):
+    def __init__(self, circle, center, Eps, params):
         self.pList = []
         self.aList = []
 
         self.circle = cp.deepcopy(circle)
         self.center = cp.deepcopy(center)
         self.Eps = cp.deepcopy(Eps)
+
+        self.M = params[0]
+        self.offset = params[1]
+
+    def add_clist(self, cList):
+        self.cList = cList
 
     def add_point(self, point):
         if point.circle != self.circle:
@@ -34,19 +40,20 @@ class Circle():
         self.aList, self.pList = zip(*sorted(zip(self.aList, self.pList)))
         self.aList, self.pList = (list(t) for t in zip(*sorted(zip(self.aList, self.pList))))
 
-    def built_subgraph(self):
+    def build_subgraph(self):
         self.G = nx.MultiGraph()
         self.cir_length = 2 * m.pi * self.Eps
         self.real_length = 0
 
-        self.sort
+        self.sort()
 
         for a in range(0, len(self.aList) - 1):
-            self.G = Arc(self.pList[a], self.pList[a + 1], self.cList, self.M, self.offset).push_to_graph(self.G)
+            self.G = Arc(self.pList[a], self.pList[a + 1], self.cList, self.Eps, (self.M, self.offset)).push_to_graph(self.G)
+        self.G = Arc(self.pList[a + 1], self.pList[0], self.cList, self.Eps, (self.M, self.offset)).push_to_graph(self.G)
 
     def push_to_graph(self, G):
-        self.built_subgraph()
-        joinedG = nx.join(self.G, G)
+        self.build_subgraph()
+        joinedG = nx.compose(self.G, G)
         return joinedG
 
 
@@ -78,7 +85,7 @@ class Tangent():
 
         if f:
             self.drawable = True
-            self.G.add_edge(self.p_1, self.p_2, self.length, label=str(self.C_1) + '-' + str(self.C_2))
+            self.G.add_edge(self.p_1, self.p_2, weight=self.length, label=str(self.C_1) + '-' + str(self.C_2))
 
     def push_to_graph(self, G):
         self.build_subgraph()
@@ -87,7 +94,8 @@ class Tangent():
         return joinedG
 
 class Arc():
-    def __init__(self, p_1, p_2, cList, params):
+    def __init__(self, p_1, p_2, cList, Eps, params):
+        # print(p_1.circle)
         self.C = cp.deepcopy(p_1.circle)
         self.p_1 = cp.deepcopy(p_1.xy)
         self.a_1 = cp.deepcopy(p_1.alpha)
@@ -95,20 +103,22 @@ class Arc():
         self.p_2 = cp.deepcopy(p_2.xy)
         self.a_2 = cp.deepcopy(p_2.alpha)
 
-        self.length = cp.deepcopy(calc.norm(p_1, p_2))
+        self.Eps = Eps
 
-        self.cList = (cp.deepcopy)
+        self.length = cp.deepcopy(calc.arc_length(self.Eps, abs(self.a_2 - self.a_1)))
+
+        self.cList = (cp.deepcopy(cList))
         self.M = cp.deepcopy(params[0])
         self.offset = cp.deepcopy(params[1])
 
     def check_collisions(self):
-        return calc.chk_ark_collisions(self)
+        return calc.chk_arc_collisions(self)
 
     def build_subgraph(self):
         self.G = nx.MultiGraph()
 
-        if self.check_collisions() is True:
-            self.G.add_edge(self.p_1, self.p_2, self.length, label=str(self.C_1) + '_' + str(round(self.a_1)) + '-' + str(round(self.a_2)))
+        # if self.check_collisions() is True:
+        self.G.add_edge(self.p_1, self.p_2, weight=self.length, label=str(self.C) + '_' + str(round(self.a_1)) + '-' + str(round(self.a_2)))
 
     def push_to_graph(self, G):
         self.build_subgraph()

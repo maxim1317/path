@@ -101,7 +101,12 @@ def chk_tan_collisions(tan):
     return True
 
 def chk_arc_collisions(arc): # Добавить проверку на пересение границ
-    O = arc.cList[arc.C].center
+    # O =
+    cList = arc.cList
+    c = arc.C
+    O = cList[c].center
+    if (c <= -1):
+        return False
 
     if arc.a_1 < arc.a_2:
         a_1 = arc.a_1

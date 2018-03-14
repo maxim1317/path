@@ -9,6 +9,8 @@ def build_graph(tList, cList):
 
     for t in tList:
         G = t.push_to_graph(G)
+    for c in cList:
+        G = c.push_to_graph(G)
 
     # print(G.edges())
     # draw(G)
@@ -16,4 +18,10 @@ def build_graph(tList, cList):
     return G
 
 def dijkstra_path(G, from_point, to_point):
+    # draw(G)
+    print(nx.dijkstra_path_length(G, tuple(from_point), tuple(to_point)))
     return nx.dijkstra_path(G, tuple(from_point), tuple(to_point))
+
+# def path_length(G, from_point, to_point):
+    # print(nx.dijkstra_path_length(graffyGraph, tuple(from_point), tuple(to_point)))
+

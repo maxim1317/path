@@ -5,11 +5,11 @@ import tangents as tn
 import graph as gph
 import pygame
 
-# import colored_traceback
-# colored_traceback.add_hook()
+import colored_traceback
+colored_traceback.add_hook()
 
 
-def draw_scene(cList, tList, Eps, params):
+def draw_scene(cList, tList, Eps, path, params):
     """ Drawing using pygame."""
 
     """--------COLORS--------"""
@@ -48,8 +48,8 @@ def draw_scene(cList, tList, Eps, params):
             pygame.draw.line(screen, green, t.p_1, t.p_2, 1)
 
     # Draw a solution path:
-    # for line in range(0, len(path) - 1):
-    #     pygame.draw.line(screen, magenta, path[line], path[line + 1], 2)
+    for line in range(0, len(path) - 1):
+        pygame.draw.line(screen, magenta, path[line], path[line + 1], 2)
 
     # pygame shit:
     pygame.display.flip()
@@ -63,7 +63,7 @@ def draw_scene(cList, tList, Eps, params):
 
 
 M = 500      # Size of rectangle
-N = 2      # Number of circles
+N = 10      # Number of circles
 Eps = 40     # Radius of circles
 offset = 50  # offset from (0, 0)
 
@@ -76,9 +76,13 @@ cList = g.generator(M, N, Eps, offset)
 tList = tn.all_tans(cList, Eps, params)
 G = gph.build_graph(tList, cList)
 
-print('here')
+C_1 = (offset, M + offset)
+C_2 = (M + offset, offset)
+
+path = gph.dijkstra_path(G, C_1, C_2)
+
 # tList = tans_n_path[0]
 # path = tans_n_path[1]
 
 # Draw everything with pygame
-draw_scene(cList, tList, Eps, params)
+draw_scene(cList, tList, Eps, path, params)

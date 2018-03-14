@@ -10,6 +10,8 @@ def generator(M, N, Eps, offset):
         And generates coordinates of circle. Nothing fancy.
         Returns list of points """
 
+    params = (M, offset)
+
     circleList = []
     out = open('gens/circlelist.gen', 'w')
 
@@ -23,8 +25,11 @@ def generator(M, N, Eps, offset):
 
             center = (random.uniform(0, M) + offset, random.uniform(0, M) + offset)
 
-        circle = cl.Circle(i, center, Eps)
+        circle = cl.Circle(i, center, Eps, params)
         circleList.append(circle)
+
+    for c in circleList:
+        c.add_clist(circleList)
 
     for p in circleList:
         for i in p.center:
