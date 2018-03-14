@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import calculations as calc
 import generator as g
 import tangents as tn
 import graph as gph
@@ -9,12 +10,12 @@ import colored_traceback
 colored_traceback.add_hook()
 
 
-def draw_scene(cList, tList, Eps, path, params):
+def draw_scene(cList, tList, Eps, path, params, text):
     """ Drawing using pygame."""
 
     """--------COLORS--------"""
     bg_dark = (73 , 72 , 62 )
-    # purple  = (104, 77 , 153)
+    purple  = (104, 77 , 153)
     magenta = (249, 38 , 114)
     green   = (166, 226, 46 )
     blue    = (102, 217, 239)
@@ -25,6 +26,11 @@ def draw_scene(cList, tList, Eps, path, params):
     offset = params[1]
 
     (width, height) = (600, 600)  # Screen size
+
+    pygame.font.init()
+    myfont = pygame.font.SysFont('DejaVu Sans Mono Book', 25)
+    calculatedSurf = myfont.render('Calculated path = ' + text[1], True, orange)
+    straightSurf = myfont.render('Straight path = ' + text[0], True, orange)
 
     # Draw screen:
     screen = pygame.display.set_mode((width, height))
@@ -49,7 +55,10 @@ def draw_scene(cList, tList, Eps, path, params):
 
     # Draw a solution path:
     for line in range(0, len(path) - 1):
-        pygame.draw.line(screen, magenta, path[line], path[line + 1], 2)
+        pygame.draw.line(screen, magenta, path[line], path[line + 1], 3)
+
+    screen.blit(straightSurf,(400, 5))
+    screen.blit(calculatedSurf,(5, 5))
 
     # pygame shit:
     pygame.display.flip()
@@ -63,8 +72,8 @@ def draw_scene(cList, tList, Eps, path, params):
 
 
 M = 500      # Size of rectangle
-N = 10      # Number of circles
-Eps = 40     # Radius of circles
+N = 15      # Number of circles
+Eps = 50     # Radius of circles
 offset = 50  # offset from (0, 0)
 
 params = (M, offset)
@@ -81,8 +90,11 @@ C_2 = (M + offset, offset)
 
 path = gph.dijkstra_path(G, C_1, C_2)
 
+text = ['a', 'a']
+text[0] = str(round(calc.norm(C_1, C_2), 3))
+text[1] = gph.path_length(G, C_1, C_2)
 # tList = tans_n_path[0]
 # path = tans_n_path[1]
 
 # Draw everything with pygame
-draw_scene(cList, tList, Eps, path, params)
+draw_scene(cList, tList, Eps, path, params, text)

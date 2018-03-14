@@ -3,6 +3,7 @@
 import random
 import classes as cl
 import calculations as calc
+import math as m
 
 def generator(M, N, Eps, offset):
     """ Takes M (rectangle size), N (number of circles) and
@@ -21,7 +22,7 @@ def generator(M, N, Eps, offset):
     for i in range(N):
         center = (random.uniform(0, M) + offset, random.uniform(0, M) + offset)
 
-        while (calc.norm(C_1, center) <= Eps) or (calc.norm(C_2, center) <= Eps):
+        while (calc.norm(C_1, center) <= Eps * m.sqrt(2)) or (calc.norm(C_2, center) <= Eps * m.sqrt(2)):
 
             center = (random.uniform(0, M) + offset, random.uniform(0, M) + offset)
 

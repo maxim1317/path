@@ -27,7 +27,7 @@ def all_tans(cList, Eps, params):
     # 1) Trying to connect start and finish with straight line
 
     line = Tangent(startPoint, finishPoint, cList, params)
-    tList.append(cp.deepcopy(line))
+    tList.append((line))
 
     print("Straight path:", calc.norm(C_1, C_2))
 
@@ -35,17 +35,17 @@ def all_tans(cList, Eps, params):
 
     for c in cList:
         for t in point_tan(startPoint, c, Eps, cList, params):
-            tList.append(cp.deepcopy(t))
+            tList.append((t))
 
         for t in point_tan(finishPoint, c, Eps, cList, params):
-            tList.append(cp.deepcopy(t))
+            tList.append((t))
 
     # 3) Finding all common tangents between circles
 
     for c_1 in range(0, len(cList)):
         for c_2 in range(c_1 + 1, len(cList)):
             for t in common_tan(cList[c_1], cList[c_2], Eps, cList, params):
-                tList.append(cp.deepcopy(t))
+                tList.append((t))
 
     return tList
 
@@ -73,35 +73,35 @@ def common_tan(circ_1, circ_2, Eps, cList, params):
     x = o_1[0] + Eps * cos
     y = o_1[1] + Eps * sin
 
-    p_1 = Point(cp.deepcopy(x), cp.deepcopy(y), cp.deepcopy(alpha), circ_1.circle)
-    circ_1.add_point(cp.deepcopy(p_1))
+    p_1 = Point((x), (y), (alpha), circ_1.circle)
+    circ_1.add_point((p_1))
 
     x = o_2[0] + Eps * cos
     y = o_2[1] + Eps * sin
 
-    p_2 = Point(cp.deepcopy(x), cp.deepcopy(y), cp.deepcopy(alpha), circ_2.circle)
-    circ_2.add_point(cp.deepcopy(p_2))
+    p_2 = Point((x), (y), (alpha), circ_2.circle)
+    circ_2.add_point((p_2))
 
-    line = Tangent(cp.deepcopy(p_1), cp.deepcopy(p_2), cList, params)
+    line = Tangent((p_1), (p_2), cList, params)
 
-    tanList.append(cp.deepcopy(line))
+    tanList.append((line))
 
     alpha = m.pi + arctan
 
     x = o_1[0] - Eps * cos
     y = o_1[1] - Eps * sin
 
-    p_1 = Point(cp.deepcopy(x), cp.deepcopy(y), cp.deepcopy(alpha), circ_1.circle)
-    circ_1.add_point(cp.deepcopy(p_1))
+    p_1 = Point((x), (y), (alpha), circ_1.circle)
+    circ_1.add_point((p_1))
 
     x = o_2[0] - Eps * cos
     y = o_2[1] - Eps * sin
 
-    p_2 = Point(cp.deepcopy(x), cp.deepcopy(y), cp.deepcopy(alpha), circ_2.circle)
-    circ_2.add_point(cp.deepcopy(p_2))
+    p_2 = Point((x), (y), (alpha), circ_2.circle)
+    circ_2.add_point((p_2))
 
-    line = Tangent(cp.deepcopy(p_1), cp.deepcopy(p_2), cList, params)
-    tanList.append(cp.deepcopy(line))
+    line = Tangent((p_1), (p_2), cList, params)
+    tanList.append((line))
 
     # find inner tangents if exist
 
@@ -114,16 +114,16 @@ def common_tan(circ_1, circ_2, Eps, cList, params):
 
         x = o_1[0] + Eps * cos
         y = o_1[1] + Eps * sin
-        p_1 = Point(cp.deepcopy(x), cp.deepcopy(y), cp.deepcopy(alpha), circ_1.circle)
-        circ_1.add_point(cp.deepcopy(p_1))
+        p_1 = Point((x), (y), (alpha), circ_1.circle)
+        circ_1.add_point((p_1))
 
         x = o_2[0] - Eps * cos
         y = o_2[1] - Eps * sin
-        p_2 = Point(cp.deepcopy(x), cp.deepcopy(y), cp.deepcopy(m.pi + alpha), circ_2.circle)
-        circ_2.add_point(cp.deepcopy(p_2))
+        p_2 = Point((x), (y), (m.pi + alpha), circ_2.circle)
+        circ_2.add_point((p_2))
 
         line = Tangent(p_1, p_2, cList, params)
-        tanList.append(cp.deepcopy(line))
+        tanList.append((line))
 
         sin = m.sin(m.pi / 2 + m.asin(2 * Eps / calc.norm(o_1, o_2)) + arctan)
         cos = m.cos(m.pi / 2 + m.asin(2 * Eps / calc.norm(o_1, o_2)) + arctan)
@@ -132,16 +132,16 @@ def common_tan(circ_1, circ_2, Eps, cList, params):
 
         x = o_1[0] - Eps * cos
         y = o_1[1] - Eps * sin
-        p_1 = Point(cp.deepcopy(x), cp.deepcopy(y), cp.deepcopy(m.pi + alpha), circ_1.circle)
-        circ_1.add_point(cp.deepcopy(p_1))
+        p_1 = Point((x), (y), (m.pi + alpha), circ_1.circle)
+        circ_1.add_point((p_1))
 
         x = o_2[0] + Eps * cos
         y = o_2[1] + Eps * sin
-        p_2 = Point(cp.deepcopy(x), cp.deepcopy(y), cp.deepcopy(alpha), circ_2.circle)
-        circ_2.add_point(cp.deepcopy(p_2))
+        p_2 = Point((x), (y), (alpha), circ_2.circle)
+        circ_2.add_point((p_2))
 
         line = Tangent(p_1, p_2, cList, params)
-        tanList.append(cp.deepcopy(line))
+        tanList.append((line))
 
     return tanList
 
@@ -162,11 +162,11 @@ def point_tan(point, circ, Eps, cList, params):
 
     x = O[0] - Eps * cos
     y = O[1] - Eps * sin
-    p = Point(cp.deepcopy(x), cp.deepcopy(y), cp.deepcopy(alpha), circ.circle)
-    circ.add_point(cp.deepcopy(p))
+    p = Point((x), (y), (alpha), circ.circle)
+    circ.add_point((p))
 
-    line = Tangent(point, cp.deepcopy(p), cList, params)
-    tanList.append(cp.deepcopy(line))
+    line = Tangent(point, (p), cList, params)
+    tanList.append((line))
 
     cos = m.cos(m.pi / 2 + arctan + m.atan2(Eps, calc.norm(point.xy, O)))
     sin = m.sin(m.pi / 2 + arctan + m.atan2(Eps, calc.norm(point.xy, O)))
@@ -174,10 +174,10 @@ def point_tan(point, circ, Eps, cList, params):
 
     x = O[0] + Eps * cos
     y = O[1] + Eps * sin
-    p = Point(cp.deepcopy(x), cp.deepcopy(y), cp.deepcopy(alpha), circ.circle)
-    circ.add_point(cp.deepcopy(p))
+    p = Point((x), (y), (alpha), circ.circle)
+    circ.add_point((p))
 
-    line = Tangent(point, cp.deepcopy(p), cList, params)
-    tanList.append(cp.deepcopy(line))
+    line = Tangent(point, (p), cList, params)
+    tanList.append((line))
 
     return tanList

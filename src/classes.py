@@ -10,7 +10,16 @@ import copy as cp
 class Point():
     def __init__(self, x, y, alpha, circle):
         self.xy = cp.deepcopy((x, y))
-        self.alpha = cp.deepcopy(alpha)
+        a = alpha
+        while a < 0:
+            a += 2 * m.pi
+
+        # print(int(a/(2 * m.pi)))
+        self.alpha = a - (int(a/(2 * m.pi)) * 2 * m.pi)
+
+        # s = (a/m.pi)
+        # print('a = pi *', s)
+
         self.circle = cp.deepcopy(circle)
 
 
@@ -21,7 +30,7 @@ class Circle():
 
         self.circle = cp.deepcopy(circle)
         self.center = cp.deepcopy(center)
-        self.Eps = cp.deepcopy(Eps)
+        self.Eps = Eps
 
         self.M = params[0]
         self.offset = params[1]
@@ -70,9 +79,9 @@ class Tangent():
         self.line = cp.deepcopy([[self.p_1[0], self.p_1[1]], [self.p_2[0], self.p_2[1]]])
         self.length = cp.deepcopy(calc.norm(self.p_1, self.p_2))
 
-        self.cList = cp.deepcopy(cList)
-        self.M = cp.deepcopy(params[0])
-        self.offset = cp.deepcopy(params[1])
+        self.cList = cList
+        self.M = (params[0])
+        self.offset = (params[1])
 
     def check_collisions(self):
         return calc.chk_tan_collisions(self)
@@ -107,9 +116,9 @@ class Arc():
 
         self.length = cp.deepcopy(calc.arc_length(self.Eps, abs(self.a_2 - self.a_1)))
 
-        self.cList = (cp.deepcopy(cList))
-        self.M = cp.deepcopy(params[0])
-        self.offset = cp.deepcopy(params[1])
+        self.cList = cList
+        self.M = (params[0])
+        self.offset = (params[1])
 
     def check_collisions(self):
         return calc.chk_arc_collisions(self)

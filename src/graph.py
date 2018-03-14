@@ -19,9 +19,8 @@ def build_graph(tList, cList):
 
 def dijkstra_path(G, from_point, to_point):
     # draw(G)
-    print(nx.dijkstra_path_length(G, tuple(from_point), tuple(to_point)))
     return nx.dijkstra_path(G, tuple(from_point), tuple(to_point))
 
-# def path_length(G, from_point, to_point):
-    # print(nx.dijkstra_path_length(graffyGraph, tuple(from_point), tuple(to_point)))
+def path_length(G, from_point, to_point):
+    return str(round(nx.dijkstra_path_length(G, tuple(from_point), tuple(to_point)), 3))
 
