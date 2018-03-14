@@ -23,7 +23,7 @@
 
 о, готово
 
-![картинка](png/fig.png)
+![alt text](png/fig.png)
 
 ## Чего нет
 
