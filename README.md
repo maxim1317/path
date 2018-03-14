@@ -22,7 +22,8 @@
 ...
 
 о, готово
-![картинка](https://bitbucket.org/oberon1317/optmet/src/a84877a8578b8be4a7b3af52cf87280bae9302b4/png/)
+
+![картинка](png/fig.png)
 
 ## Чего нет
 
