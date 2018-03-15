@@ -72,7 +72,7 @@ def draw_scene(cList, tList, Eps, path, params, text):
 
 
 M = 500      # Size of rectangle
-N = 15      # Number of circles
+N = 10       # Number of circles
 Eps = 50     # Radius of circles
 offset = 50  # offset from (0, 0)
 

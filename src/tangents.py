@@ -29,8 +29,6 @@ def all_tans(cList, Eps, params):
     line = Tangent(startPoint, finishPoint, cList, params)
     tList.append((line))
 
-    print("Straight path:", calc.norm(C_1, C_2))
-
     # 2) Finding all tangents from start/finish
 
     for c in cList:
