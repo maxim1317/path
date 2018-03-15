@@ -6,8 +6,6 @@ prepare: clean
 
 clean:
 	@rm -rf gens/
-	@python3 &
-	@pkill -f python3
 	@ristretto&
 	@pkill -f ristretto
 
@@ -16,3 +14,7 @@ nx:
 
 count:
 	@find . -name "*.py" -print0 -o -name "Makefile" -print0 -o -name "*.md" -print0 | xargs -0 wc -l	
+
+kill_python:
+	# @python3 &
+	# @pkill -f python3
