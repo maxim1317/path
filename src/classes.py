@@ -46,7 +46,7 @@ class Circle():
         self.aList, self.pList = (list(t) for t in zip(*sorted(zip(self.aList, self.pList))))
 
     def build_subgraph(self):
-        self.G = nx.MultiGraph()
+        self.G = nx.Graph()
         self.cir_length = 2 * m.pi * self.Eps
         self.real_length = 0
 
@@ -83,7 +83,7 @@ class Tangent():
         return calc.chk_tan_collisions(self)
 
     def build_subgraph(self):
-        self.G = nx.MultiGraph()
+        self.G = nx.Graph()
 
         f = False
         f = self.check_collisions()
@@ -119,7 +119,7 @@ class Arc():
         return calc.chk_arc_collisions(self)
 
     def build_subgraph(self):
-        self.G = nx.MultiGraph()
+        self.G = nx.Graph()
 
         # if self.check_collisions() is True:
         self.G.add_edge(self.p_1, self.p_2, weight=self.length, label=str(self.C) + '_' + str(round(self.a_1)) + '-' + str(round(self.a_2)))

@@ -72,8 +72,8 @@ def draw_scene(cList, tList, Eps, path, params, text):
 
 
 M = 500      # Size of rectangle
-N = 15      # Number of circles
-Eps = 50     # Radius of circles
+N = 100      # Number of circles
+Eps = 20     # Radius of circles
 offset = 50  # offset from (0, 0)
 
 params = (M, offset)
@@ -95,4 +95,4 @@ text[0] = str(round(calc.norm(C_1, C_2), 3))
 text[1] = gph.path_length(G, C_1, C_2)
 
 # Draw everything with pygame
-draw_scene(cList, tList, Eps, path, params, text)
+# draw_scene(cList, tList, Eps, path, params, text)
