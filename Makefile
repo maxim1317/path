@@ -1,10 +1,13 @@
-all: prepare
-	@python3 src/main.py &
+wave: prepare
+	@python3 wave/main.py &
+
+graph: prepare
+	@python3 graph/main.py &
 
 prepare: clean
 	@mkdir -p gens
 
-clean:
+clean: kill
 	@rm -rf gens/
 	@ristretto&
 	@pkill -f ristretto
