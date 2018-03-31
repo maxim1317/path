@@ -1,10 +1,14 @@
-all: prepare
-	@python3 src/main.py &
+wave: prepare close
+	@python3 wave/main.py
+	@gnuplot --persist wave/plots/plot.gnu& > /dev/null 2>&1
+
+graph: prepare
+	@python3 graph/main.py &
 
 prepare: clean
 	@mkdir -p gens
 
-clean:
+clean: kill
 	@rm -rf gens/
 	@ristretto&
 	@pkill -f ristretto
@@ -20,4 +24,8 @@ count:
 
 kill:
 	@python3 &
-	@pkill -f python3	
+	@pkill -f python3
+
+close:
+	@gnuplot&
+	@pkill -f gnuplot	
