@@ -68,20 +68,21 @@ class Sector():
         Eps = self.params[2]
         obst = 0
         for c in self.cList:
-            d = calc.norm(c.center, self.xy)
+            d = calc.my_norm(c.center, self.xy)
             if d <= Eps:
                 return 3
             if d < self.params[0]:
                 # obst += 3 * (Eps / d)**2
-                obst += 3 * m.exp(-d/5)
+                # obst += 3 * m.exp(-d/5)
+                obst = 0
 
         return min(obst, 3)
 
     def potential(self):
-        # d = calc.norm((0, 0), (self.params[0], self.params[0]))
-        return max(1/self.params[0] * calc.norm(self.xy, self.finish), self.is_obstacle())
+        # d = calc.my_norm((0, 0), (self.params[0], self.params[0]))
+        return max(1/self.params[0] * calc.my_norm(self.xy, self.finish), self.is_obstacle())
         # print(self.xy)
-        # return  1/self.params[0]**2 * calc.norm(self.xy, self.finish)**2
+        # return  1/self.params[0]**2 * calc.my_norm(self.xy, self.finish)**2
 
 
 class Circle():

@@ -119,40 +119,29 @@ def pathLength(path):
     length = 0
 
     for dot in range(1, len(path)):
-        length += calc.norm(path[dot][0], path[dot - 1][0])
+        length += calc.my_norm(path[dot][0], path[dot - 1][0])
     return length
 
 def pathShorten(path, cList, Eps):
     out = open('gens/shortenedpath.txt', 'w')
     listlen = len(path)
-    for s in range(0, listlen):
+    s = 0
+    # for s in range(0, listlen):
+    while s <= listlen - 1:
         f = listlen - 1
         while f > s+1:
             if not calc.collision([path[s][0], path[f][0]], cList, Eps):
                 print(s, f)
-                del path[s+1 : f]
-                if len(path[s+1 : f]) != 0:
+                del path[s+1:f]
+                if len(path[s+1:f]) != 0:
                     listlen -= f - (s+1)
-                    f -= f - (s+1) + 1
-                else:
-                    f -= 1
-            else:
-                f -= 1
-        listlen = len(path)
-    for s in range(0, listlen):
-        f = listlen - 1
-        while f > s+1:
-            if not calc.collision([path[s][0], path[f][0]], cList, Eps):
-                print(s, f)
-                del path[s : f-2]
-                if len(path[s : f-2]) != 0:
-                    listlen -= f-2 - (s)
-                    f -= f-2 - (s)
+                    f = listlen - 1
                 else:
                     f -= 1
             else:
                 # print(s, f)
                 f -= 1
+        s += 1
 
     for t in path:
         val = str(t[0][0]) + " " + str(t[0][1]) + " " + str(t[1]) + "\n"

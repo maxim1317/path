@@ -22,7 +22,7 @@ def generator(M, N, Eps, offset):
     for i in range(N):
         center = (random.uniform(0, M) + offset, random.uniform(0, M) + offset)
 
-        while (calc.norm(C_1, center) <= Eps * 5* m.sqrt(2)) or (calc.norm(C_2, center) <= Eps * 5* m.sqrt(2)):
+        while (calc.my_norm(C_1, center) <= Eps * 5* m.sqrt(2)) or (calc.my_norm(C_2, center) <= Eps * 5* m.sqrt(2)):
             center = [random.uniform(0, M) + offset, random.uniform(0, M) + offset]
 
         circle = cl.Circle(i, center, Eps, params)
