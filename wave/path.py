@@ -132,6 +132,7 @@ def pathShorten(path, cList, Eps):
         while f > s+1:
             if not calc.collision([path[s][0], path[f][0]], cList, Eps):
                 print(s, f)
+                print(path[s][0], path[f][0])
                 del path[s+1:f]
                 if len(path[s+1:f]) != 0:
                     listlen -= f - (s+1)
@@ -142,7 +143,7 @@ def pathShorten(path, cList, Eps):
                 # print(s, f)
                 f -= 1
         s += 1
-
+    print("!:", listlen)
     for t in path:
         val = str(t[0][0]) + " " + str(t[0][1]) + " " + str(t[1]) + "\n"
         out.write(str(val))

@@ -17,10 +17,10 @@ class Grid():
 
     def build_grid(self):
         self.grid = []
-        for y in range(0, self.side + 1):
+        for x in range(0, self.side + 1):
             row = []
             # print(self.side)
-            for x in range(0, self.side + 1):
+            for y in range(0, self.side + 1):
                 row.append(Sector(x, y, self.step, self.cList, self.params, (self.params[0], self.params[0])))
 
             self.grid.append(row)
@@ -71,8 +71,8 @@ class Sector():
             d = calc.my_norm(c.center, self.xy)
             if d <= Eps:
                 return 3
-            if d < self.params[0]:
-                # obst += 3 * (Eps / d)**2
+            if d < self.params[0]/5:
+                # obst += 3 * (Eps / d)**3
                 # obst += 3 * m.exp(-d/5)
                 obst = 0
 

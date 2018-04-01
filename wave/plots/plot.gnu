@@ -13,8 +13,8 @@ set auto
 # set dgrid3d 50,50 
 # set isosamples 500, 500
 set pm3d map
-# set view 90, 90
+# set view 20, 135
 
 unset hidden3d
 set parametric
-splot "gens/plot.txt" u 1:2:3 w pm3d, "gens/path.txt" with lines ls 1 lc rgb "green", "gens/shortenedpath.txt" with lines ls 1 lc rgb "blue"
+splot "gens/plot.txt" u 1:2:3 w pm3d, "gens/path.txt" with lines ls 1 lc rgb "green", "gens/shortenedpath.txt" with lines ls 1 lc rgb "red"
