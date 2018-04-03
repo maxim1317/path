@@ -20,7 +20,7 @@ def findPath(start, finish, M, step, grid):
     minim = 2
     _minim = 2
 
-    val = str(x*step) + " " + str(y*step) + " " + str(grid.grid[int(x)][int(y)].value) + "\n"
+    val = str(x*step) + " " + str(y*step) + " " + str(grid.grid[int(x)][int(y)].eval()) + "\n"
     out.write(str(val))
     path.append([(x, y), minim])
 
@@ -31,28 +31,28 @@ def findPath(start, finish, M, step, grid):
         if (0 <= nx) and (nx <= border) and (0 <= ny) and (ny <= border):
             if not (grid.grid[int(nx)][int(ny)].passed):
                 xyCandidates.append([(nx, ny), 1])
-                mCandidates.append(grid.grid[int(nx)][int(ny)].value)
+                mCandidates.append(grid.grid[int(nx)][int(ny)].eval())
 
         nx = x - 1
         ny = y
         if (0 <= nx) and (nx <= border) and (0 <= ny) and (ny <= border):
             if not (grid.grid[int(nx)][int(ny)].passed):
                 xyCandidates.append([(nx, ny), 2])
-                mCandidates.append(grid.grid[int(nx)][int(ny)].value)
+                mCandidates.append(grid.grid[int(nx)][int(ny)].eval())
 
         nx = x
         ny = y + 1
         if (0 <= nx) and (nx <= border) and (0 <= ny) and (ny <= border):
             if not (grid.grid[int(nx)][int(ny)].passed):
                 xyCandidates.append([(nx, ny), 3])
-                mCandidates.append(grid.grid[int(nx)][int(ny)].value)
+                mCandidates.append(grid.grid[int(nx)][int(ny)].eval())
 
         nx = x
         ny = y - 1
         if (0 <= nx) and (nx <= border) and (0 <= ny) and (ny <= border):
             if not (grid.grid[int(nx)][int(ny)].passed):
                 xyCandidates.append([(nx, ny), 4])
-                mCandidates.append(grid.grid[int(nx)][int(ny)].value)
+                mCandidates.append(grid.grid[int(nx)][int(ny)].eval())
 
 
 
@@ -61,28 +61,28 @@ def findPath(start, finish, M, step, grid):
         if (0 <= nx) and (nx <= border) and (0 <= ny) and (ny <= border):
             if not (grid.grid[int(nx)][int(ny)].passed):
                 xyCandidates.append([(nx, ny), 5])
-                mCandidates.append(grid.grid[int(nx)][int(ny)].value)
+                mCandidates.append(grid.grid[int(nx)][int(ny)].eval())
 
         nx = x + 1
         ny = y - 1
         if (0 <= nx) and (nx <= border) and (0 <= ny) and (ny <= border):
             if not (grid.grid[int(nx)][int(ny)].passed):
                 xyCandidates.append([(nx, ny), 6])
-                mCandidates.append(grid.grid[int(nx)][int(ny)].value)
+                mCandidates.append(grid.grid[int(nx)][int(ny)].eval())
 
         nx = x - 1
         ny = y + 1
         if (0 <= nx) and (nx <= border) and (0 <= ny) and (ny <= border):
             if not (grid.grid[int(nx)][int(ny)].passed):
                 xyCandidates.append([(nx, ny), 7])
-                mCandidates.append(grid.grid[int(nx)][int(ny)].value)
+                mCandidates.append(grid.grid[int(nx)][int(ny)].eval())
 
         nx = x - 1
         ny = y - 1
         if (0 <= nx) and (nx <= border) and (0 <= ny) and (ny <= border):
             if not (grid.grid[int(nx)][int(ny)].passed):
                 xyCandidates.append([(nx, ny), 8])
-                mCandidates.append(grid.grid[int(nx)][int(ny)].value)
+                mCandidates.append(grid.grid[int(nx)][int(ny)].eval())
 
         if len(mCandidates) != 0:
             _minim = min(mCandidates)

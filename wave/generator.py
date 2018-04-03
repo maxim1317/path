@@ -34,6 +34,8 @@ def generator(M, N, Eps, offset):
     for p in circleList:
         for i in p.center:
             out.write("%s " % i)
+        out.write("3.0 ")
+        out.write(str(Eps * 1.0))
         out.write("\n")
 
     return circleList

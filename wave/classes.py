@@ -29,8 +29,9 @@ class Grid():
         out = open('gens/plot.txt', 'w')
         for x in range(0, len(self.grid)):
             for y in range(0, len(self.grid[x])):
-                val = str(x*self.step) + " " + str(y*self.step) + " " + str(self.grid[x][y].value) + "\n"
-                out.write(str(val))
+                if self.grid[x][y].value != 2:
+                    val = str(x*self.step) + " " + str(y*self.step) + " " + str(self.grid[x][y].value) + "\n"
+                    out.write(str(val))
             out.write("\n")
 
     def waving(self):
@@ -61,8 +62,14 @@ class Sector():
 
         self.x = x
         self.y = y
-        self.value = self.potential()
+        # self.value = self.potential()
+        self.value = 2
         # print(self.xy, self.value)
+
+    def eval(self):
+        if self.value == 2:
+            self.value = self.potential()
+        return self.value
 
     def is_obstacle(self):
         Eps = self.params[2]
