@@ -1,12 +1,15 @@
 wave: prepare close
 	@python3 wave/main.py
-	@gnuplot --persist wave/plots/plot.gnu& > /dev/null 2>&1
+	# @gnuplot --persist wave/plots/plot.gnu& > /dev/null 2>&1
 
 graph: prepare
 	@python3 graph/main.py &
 
 prepare: clean
 	@mkdir -p gens
+	@echo "0 0 0 \n" >> gens/path.txt
+	@echo "500 500 0" >> gens/plot.txt
+	@echo "0 0 0" >> gens/shortenedpath.txt
 
 clean: kill
 	@rm -rf gens/

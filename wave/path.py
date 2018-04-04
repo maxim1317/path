@@ -1,6 +1,5 @@
-import math as m
 import calculations as calc
-import copy as cp
+
 def findPath(start, finish, M, step, grid):
     out = open('gens/path.txt', 'w')
 
@@ -17,8 +16,8 @@ def findPath(start, finish, M, step, grid):
     x = start[0]
     y = start[1]
 
-    minim = 2
-    _minim = 2
+    minim = grid.grid[0][0].eval()
+    _minim = grid.grid[0][0].eval()
 
     val = str(x*step) + " " + str(y*step) + " " + str(grid.grid[int(x)][int(y)].eval()) + "\n"
     out.write(str(val))
@@ -29,28 +28,28 @@ def findPath(start, finish, M, step, grid):
         nx = x + 1
         ny = y
         if (0 <= nx) and (nx <= border) and (0 <= ny) and (ny <= border):
-            if not (grid.grid[int(nx)][int(ny)].passed):
+            if (not grid.grid[int(nx)][int(ny)].passed) and grid.grid[int(nx)][int(ny)].eval() < 3:
                 xyCandidates.append([(nx, ny), 1])
                 mCandidates.append(grid.grid[int(nx)][int(ny)].eval())
 
         nx = x - 1
         ny = y
         if (0 <= nx) and (nx <= border) and (0 <= ny) and (ny <= border):
-            if not (grid.grid[int(nx)][int(ny)].passed):
+            if (not grid.grid[int(nx)][int(ny)].passed) and grid.grid[int(nx)][int(ny)].eval() < 3:
                 xyCandidates.append([(nx, ny), 2])
                 mCandidates.append(grid.grid[int(nx)][int(ny)].eval())
 
         nx = x
         ny = y + 1
         if (0 <= nx) and (nx <= border) and (0 <= ny) and (ny <= border):
-            if not (grid.grid[int(nx)][int(ny)].passed):
+            if (not grid.grid[int(nx)][int(ny)].passed) and grid.grid[int(nx)][int(ny)].eval() < 3:
                 xyCandidates.append([(nx, ny), 3])
                 mCandidates.append(grid.grid[int(nx)][int(ny)].eval())
 
         nx = x
         ny = y - 1
         if (0 <= nx) and (nx <= border) and (0 <= ny) and (ny <= border):
-            if not (grid.grid[int(nx)][int(ny)].passed):
+            if (not grid.grid[int(nx)][int(ny)].passed) and grid.grid[int(nx)][int(ny)].eval() < 3:
                 xyCandidates.append([(nx, ny), 4])
                 mCandidates.append(grid.grid[int(nx)][int(ny)].eval())
 
@@ -59,28 +58,28 @@ def findPath(start, finish, M, step, grid):
         nx = x + 1
         ny = y + 1
         if (0 <= nx) and (nx <= border) and (0 <= ny) and (ny <= border):
-            if not (grid.grid[int(nx)][int(ny)].passed):
+            if (not grid.grid[int(nx)][int(ny)].passed) and grid.grid[int(nx)][int(ny)].eval() < 3:
                 xyCandidates.append([(nx, ny), 5])
                 mCandidates.append(grid.grid[int(nx)][int(ny)].eval())
 
         nx = x + 1
         ny = y - 1
         if (0 <= nx) and (nx <= border) and (0 <= ny) and (ny <= border):
-            if not (grid.grid[int(nx)][int(ny)].passed):
+            if (not grid.grid[int(nx)][int(ny)].passed) and grid.grid[int(nx)][int(ny)].eval() < 3:
                 xyCandidates.append([(nx, ny), 6])
                 mCandidates.append(grid.grid[int(nx)][int(ny)].eval())
 
         nx = x - 1
         ny = y + 1
         if (0 <= nx) and (nx <= border) and (0 <= ny) and (ny <= border):
-            if not (grid.grid[int(nx)][int(ny)].passed):
+            if (not grid.grid[int(nx)][int(ny)].passed) and grid.grid[int(nx)][int(ny)].eval() < 3:
                 xyCandidates.append([(nx, ny), 7])
                 mCandidates.append(grid.grid[int(nx)][int(ny)].eval())
 
         nx = x - 1
         ny = y - 1
         if (0 <= nx) and (nx <= border) and (0 <= ny) and (ny <= border):
-            if not (grid.grid[int(nx)][int(ny)].passed):
+            if (not grid.grid[int(nx)][int(ny)].passed) and grid.grid[int(nx)][int(ny)].eval() < 3:
                 xyCandidates.append([(nx, ny), 8])
                 mCandidates.append(grid.grid[int(nx)][int(ny)].eval())
 
@@ -126,13 +125,15 @@ def pathShorten(path, cList, Eps):
     out = open('gens/shortenedpath.txt', 'w')
     listlen = len(path)
     s = 0
+
+    pList = []
     # for s in range(0, listlen):
     while s <= listlen - 1:
         f = listlen - 1
         while f > s+1:
-            if not calc.collision([path[s][0], path[f][0]], cList, Eps):
-                print(s, f)
-                print(path[s][0], path[f][0])
+            if not calc.collision([path[s][0], path[f][0]], cList, pList, Eps):
+                # print(s, f)
+                # print(path[s][0], path[f][0])
                 del path[s+1:f]
                 if len(path[s+1:f]) != 0:
                     listlen -= f - (s+1)
@@ -143,8 +144,8 @@ def pathShorten(path, cList, Eps):
                 # print(s, f)
                 f -= 1
         s += 1
-    print("!:", listlen)
+    # print("!:", listlen)
     for t in path:
         val = str(t[0][0]) + " " + str(t[0][1]) + " " + str(t[1]) + "\n"
         out.write(str(val))
-    return path
+    return path, pList

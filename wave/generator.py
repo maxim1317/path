@@ -16,13 +16,13 @@ def generator(M, N, Eps, offset):
     circleList = []
     out = open('gens/circlelist.gen', 'w')
 
-    C_1 = (offset, M + offset)
-    C_2 = (M + offset, offset)
+    C_1 = (offset, offset)
+    C_2 = (M + offset, M + offset)
 
     for i in range(N):
-        center = (random.uniform(0, M) + offset, random.uniform(0, M) + offset)
+        center = [random.uniform(0, M) + offset, random.uniform(0, M) + offset]
 
-        while (calc.my_norm(C_1, center) <= Eps * 5* m.sqrt(2)) or (calc.my_norm(C_2, center) <= Eps * 5* m.sqrt(2)):
+        while (calc.my_norm(C_1, center) <= Eps * 1.5 * m.sqrt(2)) or (calc.my_norm(C_2, center) <= Eps * 1.5 * m.sqrt(2)):
             center = [random.uniform(0, M) + offset, random.uniform(0, M) + offset]
 
         circle = cl.Circle(i, center, Eps, params)

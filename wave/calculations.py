@@ -83,7 +83,7 @@ def distance_numpy(A, B, P):
         return norm(P - B)
     return norm(cross(A-B, A-P))/norm(B-A)
 
-def collision(tan, cList, Eps):
+def collision(tan, cList, pList, Eps):
     """Checks intersections between the line and all of the circles
 
     Returns True if there are no collisions and False otherwise
@@ -100,8 +100,9 @@ def collision(tan, cList, Eps):
             # print("no", point_to_line_dist(c.center, tan))
             # print("d =",point_to_line_dist([c.center[0], c.center[1]], tan))
             return True
-    print("so", min(ds))
+        elif d < 2*Eps:
+            if c not in pList:
+                pList.append(c)
+    # print("so", min(ds))
     return False
-
-
 
