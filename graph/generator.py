@@ -22,7 +22,7 @@ def generator(M, N, Eps, offset):
     for i in range(N):
         center = (random.uniform(0, M) + offset, random.uniform(0, M) + offset)
 
-        while (calc.norm(C_1, center) <= Eps * m.sqrt(2)) or (calc.norm(C_2, center) <= Eps * m.sqrt(2)):
+        while (calc.my_norm(C_1, center) <= Eps * m.sqrt(2)) or (calc.my_norm(C_2, center) <= Eps * m.sqrt(2)):
 
             center = (random.uniform(0, M) + offset, random.uniform(0, M) + offset)
 
@@ -30,7 +30,7 @@ def generator(M, N, Eps, offset):
         circleList.append(circle)
 
     for c in circleList:
-        c.add_clist(circleList)
+        c.add_fullList(circleList)
 
     for p in circleList:
         for i in p.center:

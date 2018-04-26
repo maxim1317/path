@@ -101,8 +101,8 @@ if __name__ == '__main__':
         path, pList = p.pathShorten(path, cList, Eps)
         text.append(str(p.pathLength(path)))
 
-        processDraw = mp.Process(target=draw_scene, args=(cList, Eps, path, params, text,))
-        processPlot = mp.Process(target=plot, args=(grid,))
+processDraw = mp.Process(target=draw_scene, args=(cList, Eps, path, params, text,))
+processPlot = mp.Process(target=plot, args=(grid,))
 
-        processDraw.start()
-        processPlot.start()
+processDraw.start()
+processPlot.start()

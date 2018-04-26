@@ -31,8 +31,8 @@ class Circle():
         self.M = params[0]
         self.offset = params[1]
 
-    def add_clist(self, cList):
-        self.cList = cList
+    def add_fullList(self, fullList):
+        self.fullList = fullList
 
     def add_point(self, point):
         if point.circle != self.circle:
@@ -53,8 +53,8 @@ class Circle():
         self.sort()
 
         for a in range(0, len(self.aList) - 1):
-            self.G = Arc(self.pList[a], self.pList[a + 1], self.cList, self.Eps, (self.M, self.offset)).push_to_graph(self.G)
-        self.G = Arc(self.pList[a + 1], self.pList[0], self.cList, self.Eps, (self.M, self.offset)).push_to_graph(self.G)
+            self.G = Arc(self.pList[a], self.pList[a + 1], self.fullList, self.Eps, (self.M, self.offset)).push_to_graph(self.G)
+        self.G = Arc(self.pList[a + 1], self.pList[0], self.fullList, self.Eps, (self.M, self.offset)).push_to_graph(self.G)
 
     def push_to_graph(self, G):
         self.build_subgraph()
@@ -63,7 +63,7 @@ class Circle():
 
 
 class Tangent():
-    def __init__(self, p_1, p_2, cList, params):
+    def __init__(self, p_1, p_2, fullList, cList, params):
         self.C_1 = cp.deepcopy(p_1.circle)
         self.p_1 = cp.deepcopy(p_1.xy)
 
@@ -73,9 +73,9 @@ class Tangent():
         self.p_2 = cp.deepcopy(p_2.xy)
 
         self.line = cp.deepcopy([[self.p_1[0], self.p_1[1]], [self.p_2[0], self.p_2[1]]])
-        self.length = cp.deepcopy(calc.norm(self.p_1, self.p_2))
+        self.length = cp.deepcopy(calc.my_norm(self.p_1, self.p_2))
 
-        self.cList = cList
+        self.fullList = fullList
         self.M = (params[0])
         self.offset = (params[1])
 
@@ -98,7 +98,7 @@ class Tangent():
         return joinedG
 
 class Arc():
-    def __init__(self, p_1, p_2, cList, Eps, params):
+    def __init__(self, p_1, p_2, fullList, Eps, params):
         # print(p_1.circle)
         self.C = cp.deepcopy(p_1.circle)
         self.p_1 = cp.deepcopy(p_1.xy)
@@ -111,7 +111,7 @@ class Arc():
 
         self.length = cp.deepcopy(calc.arc_length(self.Eps, abs(self.a_2 - self.a_1)))
 
-        self.cList = cList
+        self.fullList = fullList
         self.M = (params[0])
         self.offset = (params[1])
 

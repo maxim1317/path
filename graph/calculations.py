@@ -4,7 +4,7 @@ import math as m
 import numpy as np
 
 
-def norm(p_1, p_2):
+def my_norm(p_1, p_2):
     """Takes to points and counts distance between them"""
     return m.sqrt((p_2[0] - p_1[0]) ** 2 + (p_2[1] - p_1[1]) ** 2)
 
@@ -78,17 +78,17 @@ def chk_tan_collisions(tan):
     if (tan.C_1 <= -1):
         O_1 = tan.p_1
     else:
-        O_1 = tan.cList[tan.C_1].center
+        O_1 = tan.fullList[tan.C_1].center
 
     if (tan.C_2 <= -1):
         O_2 = tan.p_2
     else:
-        O_2 = tan.cList[tan.C_2].center
+        O_2 = tan.fullList[tan.C_2].center
 
     M = tan.M
     offset = tan.offset
 
-    for c in tan.cList:
+    for c in tan.fullList:
         if (O_1 != c.center) and (O_2 != c.center):
             # print(tan.line)
             if point_to_line_dist([c.center[0], c.center[1]], tan.line) < c.Eps - 0.0000000000001:
@@ -102,9 +102,9 @@ def chk_tan_collisions(tan):
 
 def chk_arc_collisions(arc): # Добавить проверку на пересечение границ
     # O =
-    cList = arc.cList
+    fullList = arc.fullList
     c = arc.C
-    O = cList[c].center
+    O = fullList[c].center
     if (c <= -1):
         return False
 
@@ -115,9 +115,9 @@ def chk_arc_collisions(arc): # Добавить проверку на перес
         a_2 = arc.a_1
         a_1 = arc.a_2
 
-    for c in arc.cList:
+    for c in arc.fullList:
         if c != arc.C:
-            if norm(O, c.center) < 2 * arc.Eps:
+            if my_norm(O, c.center) < 2 * arc.Eps:
                 alpha = m.atan2(O[1] - c.center[1], O[0] - c.center[0])
 
                 if (alpha < a_2) and (alpha > a_1):

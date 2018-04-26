@@ -10,7 +10,7 @@ import pygame
 # colored_traceback.add_hook()
 
 
-def draw_scene(cList, tList, Eps, path, params, text):
+def draw_scene(fullList, cList, tList, Eps, path, params, text):
     """ Drawing using pygame."""
 
     """--------COLORS--------"""
@@ -41,7 +41,7 @@ def draw_scene(cList, tList, Eps, path, params, text):
     pygame.draw.rect(screen, orange, (offset, offset, M, M), 3)
 
     # Draw circles and dots inside them:
-    for c in cList:
+    for c in fullList:
         pygame.draw.circle(
             screen, blue, (round(c.center[0]), round(c.center[1])), Eps, 2)
 
@@ -72,18 +72,18 @@ def draw_scene(cList, tList, Eps, path, params, text):
 
 
 M = 500      # Size of rectangle
-N = 100      # Number of circles
+N = 10      # Number of circles
 Eps = 20     # Radius of circles
 offset = 50  # offset from (0, 0)
 
 params = (M, offset)
 # Generate circles coordinates:
-cList = g.generator(M, N, Eps, offset)
-
+fullList = g.generator(M, N, Eps, offset)
+cList = fullList
 # Calculate tangents to and between circles.
 # Returns tangent coords and solution:
-tList = tn.all_tans(cList, Eps, params)
-G = gph.build_graph(tList, cList)
+tList = tn.all_tans(fullList, cList, Eps, params)
+G = gph.build_graph(tList, fullList)
 
 C_1 = (offset, M + offset)
 C_2 = (M + offset, offset)
@@ -91,8 +91,8 @@ C_2 = (M + offset, offset)
 path = gph.dijkstra_path(G, C_1, C_2)
 
 text = ['a', 'a']
-text[0] = str(round(calc.norm(C_1, C_2), 3))
+text[0] = str(round(calc.my_norm(C_1, C_2), 3))
 text[1] = gph.path_length(G, C_1, C_2)
 
 # Draw everything with pygame
-# draw_scene(cList, tList, Eps, path, params, text)
+# draw_scene(fullList, cList, tList, Eps, path, params, text)

@@ -67,6 +67,9 @@ def findPath(start, finish, M, step, grid):
                 out.write(str(val))
                 path.append([(x, y), minim])
                 way = _way
+        else:
+            print("all bad")
+            return
 
 
 

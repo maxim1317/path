@@ -10,7 +10,7 @@ import calculations as calc
 from classes import *
 
 
-def all_tans(cList, Eps, params):
+def all_tans(fullList, cList, Eps, params):
     """ Very heavy function that should calculate all the tangents """
     M = params[0]
     offset = params[1]
@@ -26,32 +26,32 @@ def all_tans(cList, Eps, params):
     finishPoint = Point(C_2[0], C_2[1], -1, -2)
     # 1) Trying to connect start and finish with straight line
 
-    line = Tangent(startPoint, finishPoint, cList, params)
+    line = Tangent(startPoint, finishPoint, fullList, cList, params)
     tList.append((line))
 
-    print("Straight path:", calc.norm(C_1, C_2))
+    print("Straight path:", calc.my_norm(C_1, C_2))
 
     # 2) Finding all tangents from start/finish
 
-    for c in cList:
-        for t in point_tan(startPoint, c, Eps, cList, params):
+    for c in fullList:
+        for t in point_tan(startPoint, c, Eps, fullList, cList, params):
             tList.append((t))
 
-        for t in point_tan(finishPoint, c, Eps, cList, params):
+        for t in point_tan(finishPoint, c, Eps, fullList, cList, params):
             tList.append((t))
 
     # 3) Finding all common tangents between circles
 
-    for c_1 in range(0, len(cList)):
-        for c_2 in range(c_1 + 1, len(cList)):
-            for t in common_tan(cList[c_1], cList[c_2], Eps, cList, params):
+    for c_1 in range(0, len(fullList)):
+        for c_2 in range(c_1 + 1, len(fullList)):
+            for t in common_tan(fullList[c_1], fullList[c_2], Eps, fullList, cList, params):
                 tList.append((t))
 
     return tList
 
-def common_tan(circ_1, circ_2, Eps, cList, params):
+def common_tan(circ_1, circ_2, Eps, fullList, cList, params):
     """Finds all common tangents between
-        two cList, сircles
+        two fullList, cList, сircles
     returns list of lines with their angle
     """
 
@@ -79,7 +79,7 @@ def common_tan(circ_1, circ_2, Eps, cList, params):
     p_2 = Point((x), (y), (alpha), circ_2.circle)
     circ_2.add_point((p_2))
 
-    line = Tangent((p_1), (p_2), cList, params)
+    line = Tangent((p_1), (p_2), fullList, cList, params)
 
     tanList.append((line))
 
@@ -97,17 +97,17 @@ def common_tan(circ_1, circ_2, Eps, cList, params):
     p_2 = Point((x), (y), (alpha), circ_2.circle)
     circ_2.add_point((p_2))
 
-    line = Tangent((p_1), (p_2), cList, params)
+    line = Tangent((p_1), (p_2), fullList, cList, params)
     tanList.append((line))
 
     # find inner tangents if exist
 
-    if (calc.norm(o_1, o_2) > 2 * Eps):
+    if (calc.my_norm(o_1, o_2) > 2 * Eps):
 
-        sin = m.sin(m.pi / 2 - m.asin(2 * Eps / calc.norm(o_1, o_2)) + arctan)
-        cos = m.cos(m.pi / 2 - m.asin(2 * Eps / calc.norm(o_1, o_2)) + arctan)
+        sin = m.sin(m.pi / 2 - m.asin(2 * Eps / calc.my_norm(o_1, o_2)) + arctan)
+        cos = m.cos(m.pi / 2 - m.asin(2 * Eps / calc.my_norm(o_1, o_2)) + arctan)
 
-        alpha = -m.asin(2 * Eps / calc.norm(o_1, o_2)) + arctan
+        alpha = -m.asin(2 * Eps / calc.my_norm(o_1, o_2)) + arctan
 
         x = o_1[0] + Eps * cos
         y = o_1[1] + Eps * sin
@@ -119,13 +119,13 @@ def common_tan(circ_1, circ_2, Eps, cList, params):
         p_2 = Point((x), (y), (m.pi + alpha), circ_2.circle)
         circ_2.add_point((p_2))
 
-        line = Tangent(p_1, p_2, cList, params)
+        line = Tangent(p_1, p_2, fullList, cList, params)
         tanList.append((line))
 
-        sin = m.sin(m.pi / 2 + m.asin(2 * Eps / calc.norm(o_1, o_2)) + arctan)
-        cos = m.cos(m.pi / 2 + m.asin(2 * Eps / calc.norm(o_1, o_2)) + arctan)
+        sin = m.sin(m.pi / 2 + m.asin(2 * Eps / calc.my_norm(o_1, o_2)) + arctan)
+        cos = m.cos(m.pi / 2 + m.asin(2 * Eps / calc.my_norm(o_1, o_2)) + arctan)
 
-        alpha = m.asin(2 * Eps / calc.norm(o_1, o_2)) + arctan
+        alpha = m.asin(2 * Eps / calc.my_norm(o_1, o_2)) + arctan
 
         x = o_1[0] - Eps * cos
         y = o_1[1] - Eps * sin
@@ -137,13 +137,13 @@ def common_tan(circ_1, circ_2, Eps, cList, params):
         p_2 = Point((x), (y), (alpha), circ_2.circle)
         circ_2.add_point((p_2))
 
-        line = Tangent(p_1, p_2, cList, params)
+        line = Tangent(p_1, p_2, fullList, cList, params)
         tanList.append((line))
 
     return tanList
 
 
-def point_tan(point, circ, Eps, cList, params):
+def point_tan(point, circ, Eps, fullList, cList, params):
     """ Finds tangents between points of start/finish and circles in their
         field of view
         Returns list of tangents and their angle on the circle"""
@@ -153,28 +153,28 @@ def point_tan(point, circ, Eps, cList, params):
 
     arctan = m.atan2(O[1] - point.xy[1], O[0] - point.xy[0])
 
-    cos = m.cos(m.pi / 2 + arctan - m.atan2(Eps, calc.norm(point.xy, O)))
-    sin = m.sin(m.pi / 2 + arctan - m.atan2(Eps, calc.norm(point.xy, O)))
-    alpha = m.pi + arctan - m.atan2(Eps, calc.norm(point.xy, O))
+    cos = m.cos(m.pi / 2 + arctan - m.atan2(Eps, calc.my_norm(point.xy, O)))
+    sin = m.sin(m.pi / 2 + arctan - m.atan2(Eps, calc.my_norm(point.xy, O)))
+    alpha = m.pi + arctan - m.atan2(Eps, calc.my_norm(point.xy, O))
 
     x = O[0] - Eps * cos
     y = O[1] - Eps * sin
     p = Point((x), (y), (alpha), circ.circle)
     circ.add_point((p))
 
-    line = Tangent(point, (p), cList, params)
+    line = Tangent(point, (p), fullList, cList, params)
     tanList.append((line))
 
-    cos = m.cos(m.pi / 2 + arctan + m.atan2(Eps, calc.norm(point.xy, O)))
-    sin = m.sin(m.pi / 2 + arctan + m.atan2(Eps, calc.norm(point.xy, O)))
-    alpha = arctan + m.atan2(Eps, calc.norm(point.xy, O))
+    cos = m.cos(m.pi / 2 + arctan + m.atan2(Eps, calc.my_norm(point.xy, O)))
+    sin = m.sin(m.pi / 2 + arctan + m.atan2(Eps, calc.my_norm(point.xy, O)))
+    alpha = arctan + m.atan2(Eps, calc.my_norm(point.xy, O))
 
     x = O[0] + Eps * cos
     y = O[1] + Eps * sin
     p = Point((x), (y), (alpha), circ.circle)
     circ.add_point((p))
 
-    line = Tangent(point, (p), cList, params)
+    line = Tangent(point, (p), fullList, cList, params)
     tanList.append((line))
 
     return tanList
